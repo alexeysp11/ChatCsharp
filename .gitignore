@@ -1,0 +1,17 @@
+.vs 
+*/.vs 
+.vscode 
+
+# Documentation 
+Docs/ProcessDocs 
+
+# Unfinished modules
+Server 
+server.cmd 
+
+# Databases 
+sqlite3.exe 
+Client/Model/LocalDB 
+
+# Snippets 
+Snippets
