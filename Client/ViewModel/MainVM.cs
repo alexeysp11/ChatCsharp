@@ -3,7 +3,7 @@ using System.Windows.Input;
 using Chat.Client.Commands;
 using Chat.Client.View;
 using Chat.Client.Exceptions;
-using Chat.Client.Model; 
+using Chat.Client.Database; 
 
 namespace Chat.Client.ViewModel
 {
@@ -28,6 +28,10 @@ namespace Chat.Client.ViewModel
         /// Allows to authenticate users
         /// </summary>
         public ICommand AuthCommand { get; private set; }
+        /// <summary>
+        /// Allows to exit the application 
+        /// </summary>
+        public ICommand ExitCommand { get; private set; }
         #endregion  // Commands
 
         #region Constructor
@@ -40,6 +44,7 @@ namespace Chat.Client.ViewModel
             // Initialize commands
             this.GoToAnotherPageCommand = new GoToAnotherPageCommand(this); 
             this.AuthCommand = new AuthCommand(this); 
+            this.ExitCommand = new ExitCommand(this); 
 
             // Assign window
             CurrentWindow = mainWindow; 
@@ -114,6 +119,14 @@ namespace Chat.Client.ViewModel
             // UserPage page
             CurrentWindow.UserPage.Visibility = Visibility.Visible; 
             CurrentWindow.UserPage.IsEnabled = true; 
+        }
+
+        /// <summary>
+        /// Allows to exit the application 
+        /// </summary>
+        public void Exit()
+        {
+            Application.Current.Shutdown();
         }
         #endregion  // Going to an other page
 
@@ -190,7 +203,7 @@ namespace Chat.Client.ViewModel
             {
                 if (SqliteDbHelper.Instance.IsAuthenticated(user))
                 {
-                    CurrentWindow.MessageReg.Text = "This user is already exists in DB"; 
+                    System.Windows.MessageBox.Show("This user is already exists in DB.\nGo to the Login Page.", "Authentication error", MessageBoxButton.OK); 
                     this.GoToLoginPage();
                 }
                 else
@@ -209,5 +222,12 @@ namespace Chat.Client.ViewModel
             }
         }
         #endregion  // Submit methods
+
+        #region Communication methods 
+        public void SendMessage()
+        {
+
+        }
+        #endregion  // Communication methods 
     }
 }

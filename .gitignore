@@ -5,13 +5,14 @@
 # Documentation 
 Docs/ProcessDocs 
 
-# Unfinished modules
+# Unfinished modules 
 Server 
 server.cmd 
 
 # Databases 
 sqlite3.exe 
 Client/Model/LocalDB 
+Server/Database/ServerDB 
 
 # Snippets 
 Snippets

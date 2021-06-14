@@ -1,15 +1,38 @@
 using System;
 using System.ComponentModel;
 
-namespace Chat.Client.Model
+namespace Chat.Client.Database
 {
+    /// <summary>
+    /// Model of a user that is stored in a database  
+    /// </summary>
     public class UserModel : System.IDisposable 
     {
+        #region Properties
+        /// <summary>
+        /// Name of a user
+        /// </summary>
+        /// <value>Public access for reading, private access for changing</value>
         public string Name { get; private set; }
+        /// <summary>
+        /// Email of a user
+        /// </summary>
+        /// <value>Public access for reading, private access for changing</value>
         public string Email { get; private set; }
+        /// <summary>
+        /// Password of a user
+        /// </summary>
+        /// <value>Public access for reading, private access for changing</value>
         public string Password { get; private set; }
+        #endregion  // Properties
 
         #region Constructor 
+        /// <summary>
+        /// Constructor of UserModel
+        /// </summary>
+        /// <param name="name">Name of a user</param>
+        /// <param name="email">Email of a user</param>
+        /// <param name="password">Password of a user</param>
         public UserModel(string name, string email, string password)
         {
             this.Name = name; 

@@ -14,7 +14,7 @@
             <TextBlock Canvas.Top="60" Canvas.Left="75" FontSize="20" Text="Hello and welcome to the Chat!" />
             <Button Name="GoToRegisterPageBtn" Canvas.Top="110" Canvas.Left="125" FontSize="20" Content="Register" Height="37.5" Width="150" Command="{Binding GoToAnotherPageCommand}" CommandParameter="Register" />
             <Button Name="GoToLoginPageBtn" Canvas.Top="160" Canvas.Left="125" FontSize="20" Content="Login" Height="37.5" Width="150" Command="{Binding GoToAnotherPageCommand}" CommandParameter="Login" />
-            <Button Name="ExitBtn" Canvas.Top="210" Canvas.Left="125" FontSize="20" Content="Exit" Height="37.5" Width="150" />
+            <Button Name="ExitBtn" Canvas.Top="210" Canvas.Left="125" FontSize="20" Content="Exit" Height="37.5" Width="150" Command="{Binding ExitCommand}" />
         </Canvas>
 
         <Grid Name="Registration" IsEnabled="False" Visibility="Collapsed">
@@ -102,15 +102,34 @@
                     <RowDefinition Height="10" />
                 </Grid.RowDefinitions>
 
-                <StackPanel Grid.Row="1" Orientation="Vertical">
-                    <TextBlock Text="Chats" />
-                    <TextBlock Text="Profile" />
-                    <TextBlock Text="Friends" />
-                    <TextBlock Text="Notifications" />
-                    <TextBlock Text="Settings" />
-                </StackPanel>
-
-                <Button Content="Exit" Grid.Row="3" />
+                <TabControl Grid.Row="1" TabStripPlacement="Left" Margin="0, 0, 0, 10">
+                    <TabItem Name="ChatsUserPage" Header="Chats">
+                        <TabItem.Content>
+                            <Button Content="Click me" />
+                        </TabItem.Content>
+                    </TabItem>
+                    <TabItem Name="ProfileUserPage" Header="Profile">
+                        <TabItem.Content>
+                            <Button Content="Click me" />
+                        </TabItem.Content>
+                    </TabItem>
+                    <TabItem Name="FriendsUserPage" Header="Friends">
+                        <TabItem.Content>
+                            <Button Content="Click me" />
+                        </TabItem.Content>
+                    </TabItem>
+                    <TabItem Name="NotificationsUserPage" Header="Notifications">
+                        <TabItem.Content>
+                            <Button Content="Click me" />
+                        </TabItem.Content>
+                    </TabItem>
+                    <TabItem Name="SettingsUserPage" Header="Settings">
+                        <TabItem.Content>
+                            <Button Content="Click me" />
+                        </TabItem.Content>
+                    </TabItem>
+                </TabControl>
+                <Button Content="Exit" Grid.Row="3" Command="{Binding ExitCommand}" />
             </Grid>
 
             <Grid Name="ActiveChat" Grid.Column="3">

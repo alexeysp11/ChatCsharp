@@ -1,7 +1,7 @@
 using System.Collections.Generic; 
 using Microsoft.Data.Sqlite;
 
-namespace Chat.Client.Model
+namespace Chat.Client.Database
 {
     /// <summary>
     /// Class that allows to use SQLite database 
@@ -17,11 +17,10 @@ namespace Chat.Client.Model
             Name TEXT, 
             Email TEXT, 
             Password TEXT)"; 
-        
         /// <summary>
         /// Absolute path to the database 
         /// </summary>
-        private string AbsolutePathToDb;    // Set absolute path to the DB that locates in the Model/LocalDB folder. 
+        private string AbsolutePathToDb = "C:\\Users\\User\\Desktop\\projects\\Server\\ServerCsharp\\ChatCsharp\\Client\\Model\\LocalDB\\LocalDB.sqlite3";
         #endregion  // Properties
 
         #region Members
