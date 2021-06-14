@@ -8,6 +8,10 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="Chat" Height="450" Width="450">
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding SendCommand}" Key="Enter" Modifiers="Ctrl" />
+    </Window.InputBindings>
+
     <Grid Name="MainGrid">
         <Canvas Name="Welcome" IsEnabled="True" Visibility="Visible">
             <TextBlock Canvas.Top="10" Canvas.Left="100" FontSize="28" Text="Welcome Page" Grid.ColumnSpan="2" Margin="0,0,0,10"/>
@@ -87,53 +91,44 @@
 
         <Grid Name="UserPage" IsEnabled="False" Visibility="Collapsed">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="10" />
-                <ColumnDefinition Width="75" />
-                <ColumnDefinition Width="150" />
-                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="20"/>
             </Grid.ColumnDefinitions>
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="20"/>
+            </Grid.RowDefinitions>
 
-            <Grid Name="LeftSideBar" Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="50" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="150" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="10" />
-                </Grid.RowDefinitions>
+            <TextBlock Grid.Column="1" Grid.Row="1" FontSize="28" Text="Join the Chat" Grid.ColumnSpan="2" Margin="50,0,0,10"/>
 
-                <TabControl Grid.Row="1" TabStripPlacement="Left" Margin="0, 0, 0, 10">
-                    <TabItem Name="ChatsUserPage" Header="Chats">
-                        <TabItem.Content>
-                            <Button Content="Click me" />
-                        </TabItem.Content>
-                    </TabItem>
-                    <TabItem Name="ProfileUserPage" Header="Profile">
-                        <TabItem.Content>
-                            <Button Content="Click me" />
-                        </TabItem.Content>
-                    </TabItem>
-                    <TabItem Name="FriendsUserPage" Header="Friends">
-                        <TabItem.Content>
-                            <Button Content="Click me" />
-                        </TabItem.Content>
-                    </TabItem>
-                    <TabItem Name="NotificationsUserPage" Header="Notifications">
-                        <TabItem.Content>
-                            <Button Content="Click me" />
-                        </TabItem.Content>
-                    </TabItem>
-                    <TabItem Name="SettingsUserPage" Header="Settings">
-                        <TabItem.Content>
-                            <Button Content="Click me" />
-                        </TabItem.Content>
-                    </TabItem>
-                </TabControl>
-                <Button Content="Exit" Grid.Row="3" Command="{Binding ExitCommand}" />
-            </Grid>
+            <RichTextBox Grid.Column="1" Grid.Row="2" Height="200" Width="380" Grid.ColumnSpan="2" IsReadOnly="True" VerticalScrollBarVisibility="Auto">
+                <FlowDocument PageHeight="Auto" PageWidth="380">
+                    <Paragraph>
+                        <Run Text="{Binding MessagesVM.MessagesInChat}" />
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
 
-            <Grid Name="ActiveChat" Grid.Column="3">
-            </Grid>
+            <StackPanel Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2">
+                <TextBlock Text="Message:" FontSize="15" />
+                <RichTextBox Height="50" Width="380" VerticalScrollBarVisibility="Auto">
+                    <FlowDocument PageHeight="Auto" PageWidth="250">
+                        <Paragraph>
+                            <Run Text="{Binding MessagesVM.MessageToSend}" />
+                        </Paragraph>
+                    </FlowDocument>
+                </RichTextBox>
+            </StackPanel>
+            
+            <StackPanel Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" Orientation="Horizontal">
+                <Button FontSize="15" Content="Exit" Height="25" Width="380" Command="{Binding ExitCommand}" />
+            </StackPanel>
         </Grid>
     </Grid>
 </Window>

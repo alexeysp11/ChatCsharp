@@ -16,8 +16,15 @@ namespace Chat.Client.ViewModel
         /// <summary>
         /// Allows to get current window and close it while moving to an other window
         /// </summary>
-        private MainWindow CurrentWindow { get; set; } = null; 
+        public MainWindow CurrentWindow { get; private set; } = null; 
         #endregion  // Members
+
+        #region ViewModels
+        /// <summary>
+        /// ViewModel for displaying messages 
+        /// </summary>
+        public MessagesVM MessagesVM { get; private set; }
+        #endregion  // ViewModels
 
         #region Commands
         /// <summary>
@@ -32,6 +39,10 @@ namespace Chat.Client.ViewModel
         /// Allows to exit the application 
         /// </summary>
         public ICommand ExitCommand { get; private set; }
+        /// <summary>
+        /// Sends a message to the chat 
+        /// </summary>
+        public ICommand SendCommand { get; private set; }
         #endregion  // Commands
 
         #region Constructor
@@ -45,6 +56,10 @@ namespace Chat.Client.ViewModel
             this.GoToAnotherPageCommand = new GoToAnotherPageCommand(this); 
             this.AuthCommand = new AuthCommand(this); 
             this.ExitCommand = new ExitCommand(this); 
+            this.SendCommand = new SendCommand(this); 
+
+            // Initialize ViewModels
+            this.MessagesVM = new MessagesVM(); 
 
             // Assign window
             CurrentWindow = mainWindow; 
@@ -54,7 +69,7 @@ namespace Chat.Client.ViewModel
         }
         #endregion  // Constructor
 
-        #region Going to an other page
+        #region Methods for going to an other page
         /// <summary>
         /// Allows to go to the register page 
         /// </summary>
@@ -126,9 +141,13 @@ namespace Chat.Client.ViewModel
         /// </summary>
         public void Exit()
         {
-            Application.Current.Shutdown();
+            MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure to exit the application?", "Exit the application", MessageBoxButton.YesNo); 
+            if (result == MessageBoxResult.Yes)
+            {
+                Application.Current.Shutdown();
+            }
         }
-        #endregion  // Going to an other page
+        #endregion  // Methods for going to an other page
 
         #region Submit methods
         /// <summary>
@@ -224,9 +243,13 @@ namespace Chat.Client.ViewModel
         #endregion  // Submit methods
 
         #region Communication methods 
+        /// <summary>
+        /// Sends message via TCP/UDP protocols 
+        /// </summary>
         public void SendMessage()
         {
-
+            this.MessagesVM.MessagesInChat += $"User: {this.MessagesVM.MessageToSend}\n"; 
+            this.MessagesVM.MessageToSend = System.String.Empty; 
         }
         #endregion  // Communication methods 
     }

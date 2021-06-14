@@ -20,7 +20,7 @@ namespace Chat.Client.Database
         /// <summary>
         /// Absolute path to the database 
         /// </summary>
-        private string AbsolutePathToDb = "C:\\Users\\User\\Desktop\\projects\\Server\\ServerCsharp\\ChatCsharp\\Client\\Model\\LocalDB\\LocalDB.sqlite3";
+        private string AbsolutePathToDb;
         #endregion  // Properties
 
         #region Members
@@ -141,7 +141,6 @@ namespace Chat.Client.Database
                     System.Windows.MessageBox.Show($"Failed to get data from database:\n{e}");
                 }
             }
-
             return false; 
         }
         #endregion  // Methods for User table

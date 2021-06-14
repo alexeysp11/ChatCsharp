@@ -35,7 +35,7 @@ namespace Chat.Client.Commands
             }
             else
             {
-                System.Windows.MessageBox.Show($"Incorrect CommandParameter: {parameterString}"); 
+                System.Windows.MessageBox.Show($"Incorrect CommandParameter: {parameterString} inside GoToAnotherPageCommand", "Exception"); 
             }
         }
     }
