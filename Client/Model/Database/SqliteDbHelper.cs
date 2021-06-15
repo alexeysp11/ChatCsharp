@@ -110,7 +110,10 @@ namespace Chat.Client.Database
         /// Allows to make request to the database and get if user exists in database 
         /// </summary>
         /// <param name="user">Instance of UserModel that consists all fields of user</param>
-        /// <returns></returns>
+        /// <returns>
+        /// True if user with such name and password exists in the database. 
+        /// False if user with such name and password does not exist in the database
+        /// </returns>
         public bool IsAuthenticated(UserModel user)
         {
             string request = $@"SELECT Name, Password FROM Users";

@@ -17,6 +17,10 @@ namespace Chat.Client.ViewModel
         /// Allows to get current window and close it while moving to an other window
         /// </summary>
         public MainWindow CurrentWindow { get; private set; } = null; 
+        /// <summary>
+        /// Allows to get all information about the user authenticated at the current time  
+        /// </summary>
+        public UserModel CurrentUser { get; private set; } = null; 
         #endregion  // Members
 
         #region ViewModels
@@ -42,7 +46,7 @@ namespace Chat.Client.ViewModel
         /// <summary>
         /// Sends a message to the chat 
         /// </summary>
-        public ICommand SendCommand { get; private set; }
+        public ICommand MessageCommand { get; private set; }
         #endregion  // Commands
 
         #region Constructor
@@ -56,16 +60,19 @@ namespace Chat.Client.ViewModel
             this.GoToAnotherPageCommand = new GoToAnotherPageCommand(this); 
             this.AuthCommand = new AuthCommand(this); 
             this.ExitCommand = new ExitCommand(this); 
-            this.SendCommand = new SendCommand(this); 
+            this.MessageCommand = new MessageCommand(this); 
 
             // Initialize ViewModels
-            this.MessagesVM = new MessagesVM(); 
+            this.MessagesVM = new MessagesVM(this); 
 
             // Assign window
             CurrentWindow = mainWindow; 
 
             // Create DB 
             SqliteDbHelper.Instance.CreateUserTable(); 
+
+            // Set initial number of characters available in the message 
+            this.SetNumberOfAvailableCharsInTextBlock(); 
         }
         #endregion  // Constructor
 
@@ -144,6 +151,7 @@ namespace Chat.Client.ViewModel
             MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure to exit the application?", "Exit the application", MessageBoxButton.YesNo); 
             if (result == MessageBoxResult.Yes)
             {
+                this.CurrentUser = null; 
                 Application.Current.Shutdown();
             }
         }
@@ -203,6 +211,7 @@ namespace Chat.Client.ViewModel
                 if (SqliteDbHelper.Instance.IsAuthenticated(user))
                 {
                     CurrentWindow.MessageLogin.Text = "Successfully submitted!";
+                    this.CurrentUser = user; 
                     this.GoToUserPage(); 
                 }
                 else
@@ -248,8 +257,18 @@ namespace Chat.Client.ViewModel
         /// </summary>
         public void SendMessage()
         {
-            this.MessagesVM.MessagesInChat += $"User: {this.MessagesVM.MessageToSend}\n"; 
+            this.MessagesVM.MessagesInChat += $"{this.CurrentUser.Name}: {this.MessagesVM.MessageToSend}\n"; 
             this.MessagesVM.MessageToSend = System.String.Empty; 
+        }
+
+        /// <summary>
+        /// Sets string to display number of available chars while typing the message 
+        /// </summary>
+        /// <param name="charsInMessage">Number of characters in the current message</param>
+        public void SetNumberOfAvailableCharsInTextBlock(int charsInMessage=0)
+        {
+            int maxLength = this.CurrentWindow.MessageToSendTextBox.MaxLength; 
+            this.MessagesVM.CharsAvailable = $" ({maxLength - charsInMessage}/{maxLength}) "; 
         }
         #endregion  // Communication methods 
     }

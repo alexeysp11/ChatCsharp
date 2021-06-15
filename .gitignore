@@ -9,6 +9,9 @@ Docs/ProcessDocs
 Server 
 server.cmd 
 
+# Testing modules 
+Test.Client
+
 # Databases 
 sqlite3.exe 
 Client/Model/LocalDB 

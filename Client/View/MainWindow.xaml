@@ -7,9 +7,10 @@
         xmlns:vm="clr-namespace:Chat.Client.ViewModel"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Chat" Height="450" Width="450">
+        Title="Chat" 
+        MinHeight="450" MinWidth="450" MaxHeight="450" MaxWidth="450">
     <Window.InputBindings>
-        <KeyBinding Command="{Binding SendCommand}" Key="Enter" Modifiers="Ctrl" />
+        <KeyBinding Command="{Binding MessageCommand}" CommandParameter="Send" Key="Enter" Modifiers="Ctrl" />
     </Window.InputBindings>
 
     <Grid Name="MainGrid">
@@ -117,17 +118,16 @@
 
             <StackPanel Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2">
                 <TextBlock Text="Message:" FontSize="15" />
-                <RichTextBox Height="50" Width="380" VerticalScrollBarVisibility="Auto">
-                    <FlowDocument PageHeight="Auto" PageWidth="250">
-                        <Paragraph>
-                            <Run Text="{Binding MessagesVM.MessageToSend}" />
-                        </Paragraph>
-                    </FlowDocument>
-                </RichTextBox>
+                <TextBox Name="MessageToSendTextBox" Height="25" Width="380" Text="{Binding Path=MessagesVM.MessageToSend, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="120" />
             </StackPanel>
             
             <StackPanel Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" Orientation="Horizontal">
                 <Button FontSize="15" Content="Exit" Height="25" Width="380" Command="{Binding ExitCommand}" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2" Orientation="Horizontal">
+                <TextBlock FontSize="14" Text="Ctrl+Enter - send message" />
+                <TextBlock FontSize="14" Text="{Binding MessagesVM.CharsAvailable }" />
             </StackPanel>
         </Grid>
     </Grid>

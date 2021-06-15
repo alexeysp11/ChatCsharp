@@ -7,6 +7,13 @@ namespace Chat.Client.ViewModel
     /// </summary>
     public class MessagesVM : INotifyPropertyChanged
     {
+        #region ViewModels
+        /// <summary>
+        /// Instance of MainVM
+        /// </summary>
+        private MainVM _MainVM { get; set; }
+        #endregion  // ViewModels
+        
         #region Properties
         /// <summary>
         /// Private field for storing massages in the current chat  
@@ -38,11 +45,45 @@ namespace Chat.Client.ViewModel
             get { return messageToSend; } 
             set
             {
-                messageToSend = value;
+                // Set private field. 
+                messageToSend = value; 
+
+                // Notify about length of a string. 
+                this._MainVM.SetNumberOfAvailableCharsInTextBlock(messageToSend.Length); 
+
+                // Notify the Control that property value has changed. 
                 OnPropertyChanged("MessageToSend");
             }
         }
+        /// <summary>
+        /// Private field for storing number of characters that are available in the message
+        /// </summary>
+        private string charsAvailable;
+        /// <summary>
+        /// Public property for setting and getting number of characters that are available in the message
+        /// </summary>
+        /// <value>Sets and gets charsAvailable</value>
+        public string CharsAvailable
+        {
+            get { return charsAvailable; }
+            set 
+            { 
+                charsAvailable = value; 
+                OnPropertyChanged("CharsAvailable");
+            }
+        }
         #endregion  // Properties
+
+        #region Constructor 
+        /// <summary>
+        /// Constructor of MessagesVM 
+        /// </summary>
+        /// <param name="mainVM">Instance of MainVM</param>
+        public MessagesVM(MainVM mainVM)
+        {
+            this._MainVM = mainVM;
+        }
+        #endregion  // Constructor 
 
         #region Event handling
         /// <summary>
