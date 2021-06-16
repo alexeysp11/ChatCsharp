@@ -20,7 +20,7 @@ namespace Chat.Client.Database
         /// <summary>
         /// Absolute path to the database (used for storing the path)
         /// </summary>
-        private string absolutePathToDb;
+        private string absolutePathToDb = "Some path";
         /// <summary>
         /// Absolute path to the database (used for setting and getting the path)
         /// </summary>
