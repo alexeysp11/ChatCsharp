@@ -18,9 +18,19 @@ namespace Chat.Client.Database
             Email TEXT, 
             Password TEXT)"; 
         /// <summary>
-        /// Absolute path to the database 
+        /// Absolute path to the database (used for storing the path)
         /// </summary>
-        private string AbsolutePathToDb;
+        private string absolutePathToDb;
+        /// <summary>
+        /// Absolute path to the database (used for setting and getting the path)
+        /// </summary>
+        /// <value>Sets and gets value of absolutePathToDb</value>
+        public string AbsolutePathToDb
+        {
+            get { return absolutePathToDb; }
+            set { absolutePathToDb = value; }
+        }
+        
         #endregion  // Properties
 
         #region Members
