@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using Chat.Client.Database; 
+using Chat.Client.Xml; 
 
 namespace Test.Client
 {
@@ -25,14 +26,21 @@ namespace Test.Client
         /// <summary>
         /// Absolute path to the testing database 
         /// </summary>
-        string TestAbsolutePathToDb = "Some path to the database"; 
+        string TestAbsolutePathToDb; 
         #endregion  // Properties
         
         [SetUp]
         public void Setup()
         {
-            SqliteDbHelper.Instance.AbsolutePathToDb = TestAbsolutePathToDb; 
+            DatabasePath pathObj = XmlHelper.FromXmlFile<DatabasePath>("../../../TestLocalDB/DatabasePath.xml");
+            this.TestAbsolutePathToDb = pathObj.AbsolutePath; 
+            SqliteDbHelper.Instance.AbsolutePathToDb = this.TestAbsolutePathToDb; 
             TestUser = new UserModel(Name, Email, Password); 
+
+            if (System.IO.File.Exists(this.TestAbsolutePathToDb))
+            {
+                System.IO.File.Delete(this.TestAbsolutePathToDb); 
+            }
         }
 
         [Test]
@@ -48,7 +56,7 @@ namespace Test.Client
         }
 
         [Test]
-        public void CreateUserTable_CreateTableCallingTheMethod_TableIsCreated()
+        public void CreateUserTable_CreateTable_TableIsCreated()
         {
             // Act
             SqliteDbHelper.Instance.CreateUserTable(); 

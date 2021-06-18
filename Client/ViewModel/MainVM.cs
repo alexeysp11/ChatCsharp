@@ -71,6 +71,8 @@ namespace Chat.Client.ViewModel
             // Try to create a table for users. 
             try
             {
+                DatabasePath path = new DatabasePath(); 
+                SqliteDbHelper.Instance.AbsolutePathToDb = path.AbsolutePath; 
                 SqliteDbHelper.Instance.CreateUserTable(); 
             }
             catch (System.Exception e)
@@ -247,7 +249,7 @@ namespace Chat.Client.ViewModel
                 {
                     if (SqliteDbHelper.Instance.IsAuthenticated(user))
                     {
-                        System.Windows.MessageBox.Show("This user is already exists in DB.\nGo to the Login Page.", "Authentication error", MessageBoxButton.OK); 
+                        System.Windows.MessageBox.Show($"User {user.Name} already exists in DB.\nGo to the Login Page.", "Authentication error", MessageBoxButton.OK); 
                         this.ClearRegistrationFields(); 
                         this.GoToLoginPage();
                     }

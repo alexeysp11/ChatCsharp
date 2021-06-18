@@ -1,5 +1,6 @@
 using System.Collections.Generic; 
 using Microsoft.Data.Sqlite;
+using Chat.Client.Xml; 
 
 namespace Chat.Client.Database
 {
@@ -20,7 +21,7 @@ namespace Chat.Client.Database
         /// <summary>
         /// Absolute path to the database (used for storing the path)
         /// </summary>
-        private string absolutePathToDb = "Some path to the database";
+        private string absolutePathToDb;
         /// <summary>
         /// Absolute path to the database (used for setting and getting the path)
         /// </summary>
@@ -34,14 +35,14 @@ namespace Chat.Client.Database
 
         #region Members
         /// <summary>
-        /// Instance of SqliteDbHelper (to use Singleton pattern to avoid memory leak)
+        /// Instance of SqliteDbHelper (to use Singleton pattern)
         /// </summary>
         public static SqliteDbHelper Instance { get; private set; } 
         #endregion  // Members
 
         #region Constructors
         /// <summary>
-        /// Static constructor of SqliteDbHelper (to use Singleton pattern to avoid memory leak)
+        /// Static constructor of SqliteDbHelper (to use Singleton pattern)
         /// </summary>
         static SqliteDbHelper()
         {
@@ -49,10 +50,25 @@ namespace Chat.Client.Database
         }
 
         /// <summary>
-        /// Private constructor of SqliteDbHelper (to use Singleton pattern to avoid memory leak)
+        /// Private constructor of SqliteDbHelper (to use Singleton pattern)
         /// </summary>
-        private SqliteDbHelper() { }
+        private SqliteDbHelper() 
+        {
+            
+        }
         #endregion  // Constructors
+
+        #region Path
+        /// <summary>
+        /// Method that is used for getting absolute path of the database from XML file
+        /// </summary>
+        /// <param name="path">String value of a path to the database</param>
+        public void GetPathToDbFromXmlFile(string path="Client/Model/LocalDB/DatabasePath.xml")
+        {
+            DatabasePath pathObj = XmlHelper.FromXmlFile<DatabasePath>(path); 
+            this.AbsolutePathToDb = pathObj.AbsolutePath; 
+        }
+        #endregion  // Path
         
         #region Methods for User table
         /// <summary>
