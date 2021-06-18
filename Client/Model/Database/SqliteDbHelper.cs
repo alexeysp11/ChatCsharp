@@ -52,10 +52,7 @@ namespace Chat.Client.Database
         /// <summary>
         /// Private constructor of SqliteDbHelper (to use Singleton pattern)
         /// </summary>
-        private SqliteDbHelper() 
-        {
-            
-        }
+        private SqliteDbHelper() { }
         #endregion  // Constructors
 
         #region Path
@@ -65,8 +62,15 @@ namespace Chat.Client.Database
         /// <param name="path">String value of a path to the database</param>
         public void GetPathToDbFromXmlFile(string path="Client/Model/LocalDB/DatabasePath.xml")
         {
-            DatabasePath pathObj = XmlHelper.FromXmlFile<DatabasePath>(path); 
-            this.AbsolutePathToDb = pathObj.AbsolutePath; 
+            try
+            {
+                DatabasePath pathObj = XmlHelper.FromXmlFile<DatabasePath>(path); 
+                this.AbsolutePathToDb = pathObj.AbsolutePath; 
+            }
+            catch (System.Exception e)
+            {
+                throw e;
+            }
         }
         #endregion  // Path
         
@@ -114,7 +118,7 @@ namespace Chat.Client.Database
             {
                 if (!System.IO.File.Exists(this.AbsolutePathToDb))
                 {
-                    this.CreateUserTable(); 
+                    throw new System.Exception($"Exception while inserting data into database. File {this.AbsolutePathToDb} does not exist"); 
                 }
                 if (this.IsAuthenticated(user))
                 {
@@ -164,6 +168,10 @@ namespace Chat.Client.Database
             if (user == null)
             {
                 throw new System.ArgumentNullException(nameof(user), "User should not be null"); 
+            }
+            if (!System.IO.File.Exists(this.AbsolutePathToDb))
+            {
+                throw new System.Exception($"Exception while getting data from database. File {this.AbsolutePathToDb} does not exist"); 
             }
 
             string request = $@"SELECT Name, Password FROM Users";
