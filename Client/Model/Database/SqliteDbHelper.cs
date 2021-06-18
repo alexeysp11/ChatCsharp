@@ -20,7 +20,7 @@ namespace Chat.Client.Database
         /// <summary>
         /// Absolute path to the database (used for storing the path)
         /// </summary>
-        private string absolutePathToDb = "Some path";
+        private string absolutePathToDb = "Some path to the database";
         /// <summary>
         /// Absolute path to the database (used for setting and getting the path)
         /// </summary>
@@ -30,7 +30,6 @@ namespace Chat.Client.Database
             get { return absolutePathToDb; }
             set { absolutePathToDb = value; }
         }
-        
         #endregion  // Properties
 
         #region Members
@@ -79,7 +78,7 @@ namespace Chat.Client.Database
                 }
                 catch (System.Exception e)
                 {
-                    System.Windows.MessageBox.Show($"Failed to create database:\n{e}"); 
+                    throw e; 
                 }
             }
         }
@@ -90,12 +89,32 @@ namespace Chat.Client.Database
         /// <param name="user">Instance of UserModel that consists all fields of user</param>
         public void InsertDataIntoUserTable(UserModel user)
         {
+            if (user == null)
+            {
+                throw new System.ArgumentNullException(nameof(user), "User should not be null"); 
+            }
+
+            try
+            {
+                if (!System.IO.File.Exists(this.AbsolutePathToDb))
+                {
+                    this.CreateUserTable(); 
+                }
+                if (this.IsAuthenticated(user))
+                {
+                    throw new System.ArgumentException($"User {user.Name} already exists in the database");
+                }
+            }
+            catch (System.Exception e)
+            {
+                throw e; 
+            }
+            
             string insertRequest = $@"INSERT INTO Users (Name, Email, Password)
                 VALUES ('{user.Name}', '{user.Email}', '{user.Password}')"; 
-            
+
             var connectionStringBuilder = new SqliteConnectionStringBuilder();
             connectionStringBuilder.DataSource = this.AbsolutePathToDb;
-
             using (var connection = new SqliteConnection(connectionStringBuilder.ConnectionString))
             {
                 try
@@ -111,7 +130,7 @@ namespace Chat.Client.Database
                 }
                 catch (System.Exception e)
                 {
-                    System.Windows.MessageBox.Show($"Failed to insert data into database:\n{e}");
+                    throw e;
                 }
             }
         }
@@ -126,6 +145,11 @@ namespace Chat.Client.Database
         /// </returns>
         public bool IsAuthenticated(UserModel user)
         {
+            if (user == null)
+            {
+                throw new System.ArgumentNullException(nameof(user), "User should not be null"); 
+            }
+
             string request = $@"SELECT Name, Password FROM Users";
 
             var connectionStringBuilder = new SqliteConnectionStringBuilder();
@@ -151,7 +175,7 @@ namespace Chat.Client.Database
                 }
                 catch (System.Exception e)
                 {
-                    System.Windows.MessageBox.Show($"Failed to get data from database:\n{e}");
+                    throw e;
                 }
             }
             return false; 

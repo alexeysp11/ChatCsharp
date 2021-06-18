@@ -25,7 +25,7 @@ namespace Test.Client
         /// <summary>
         /// Absolute path to the testing database 
         /// </summary>
-        string TestAbsolutePathToDb = "Some path"; 
+        string TestAbsolutePathToDb = "Some path to the database"; 
         #endregion  // Properties
         
         [SetUp]
@@ -48,7 +48,7 @@ namespace Test.Client
         }
 
         [Test]
-        public void CreateUserTable_JustCallTheMethod_TableIsCreated()
+        public void CreateUserTable_CreateTableCallingTheMethod_TableIsCreated()
         {
             // Act
             SqliteDbHelper.Instance.CreateUserTable(); 
@@ -59,7 +59,7 @@ namespace Test.Client
         }
 
         [Test]
-        public void InsertDataIntoUserTable_JustCallTheMethod_DataInserted()
+        public void InsertDataIntoUserTable_InsertTestUser_DataInserted()
         {
             // Act
             SqliteDbHelper.Instance.InsertDataIntoUserTable(TestUser); 

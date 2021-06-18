@@ -56,22 +56,29 @@ namespace Chat.Client.ViewModel
         /// <param name="mainWindow">Instance of MainWindow (for convinient way to access UI elements)</param>
         public MainVM(MainWindow mainWindow)
         {
-            // Initialize commands
+            // Initialize property for getting MainWindow from the code.  
+            CurrentWindow = mainWindow; 
+
+            // ViewModels. 
+            this.MessagesVM = new MessagesVM(this); 
+
+            // Commands. 
             this.GoToAnotherPageCommand = new GoToAnotherPageCommand(this); 
             this.AuthCommand = new AuthCommand(this); 
             this.ExitCommand = new ExitCommand(this); 
             this.MessageCommand = new MessageCommand(this); 
 
-            // Initialize ViewModels
-            this.MessagesVM = new MessagesVM(this); 
-
-            // Assign window
-            CurrentWindow = mainWindow; 
-
-            // Create DB 
-            SqliteDbHelper.Instance.CreateUserTable(); 
-
-            // Set initial number of characters available in the message 
+            // Try to create a table for users. 
+            try
+            {
+                SqliteDbHelper.Instance.CreateUserTable(); 
+            }
+            catch (System.Exception e)
+            {
+                System.Windows.MessageBox.Show($"Failed to create database:\n{e}"); 
+            }
+            
+            // Set initial number of characters available in the message. 
             this.SetNumberOfAvailableCharsInTextBlock(); 
         }
         #endregion  // Constructor
@@ -170,8 +177,7 @@ namespace Chat.Client.ViewModel
             }
             else
             {
-                // Check if this user already exists in database
-                this.CheckUserInDatabaseOnLogin(); 
+                this.CheckUserInDatabaseOnLogin();  // Check if this user already exists in database. 
             }
         }
 
@@ -191,8 +197,7 @@ namespace Chat.Client.ViewModel
             {
                 if (CurrentWindow.PasswordBoxReg.Password == CurrentWindow.ConfirmPasswordBoxReg.Password)
                 {
-                    // Insert new user into DB 
-                    this.RegisterUserInDb();
+                    this.RegisterUserInDb();    // Insert new user into DB 
                 }
                 else
                 {
@@ -208,16 +213,25 @@ namespace Chat.Client.ViewModel
         {
             using ( UserModel user = new UserModel(CurrentWindow.UsernameLogin.Text, null, CurrentWindow.PasswordLogin.Password) )
             {
-                if (SqliteDbHelper.Instance.IsAuthenticated(user))
+                try
                 {
-                    CurrentWindow.MessageLogin.Text = "Successfully submitted!";
-                    this.CurrentUser = user; 
-                    this.GoToUserPage(); 
+                    if (SqliteDbHelper.Instance.IsAuthenticated(user))
+                    {
+                        System.Windows.MessageBox.Show("Successfully submitted!\nNow you can use the Chat.", "Welcome to the Chat!");
+                        this.CurrentUser = user; 
+                        this.ClearLoginFields(); 
+                        this.GoToUserPage(); 
+                    }
+                    else
+                    {
+                        System.Windows.MessageBox.Show("No such user in the database.\nRegister first!", "Authentication error");
+                        this.ClearLoginFields(); 
+                        this.GoToRegisterPage(); 
+                    }
                 }
-                else
+                catch (System.Exception e)
                 {
-                    CurrentWindow.MessageLogin.Text = "Register first!";
-                    this.GoToRegisterPage(); 
+                    System.Windows.MessageBox.Show($"Exception while getting user from database:\n{e}", "Exception"); 
                 }
             }
         }
@@ -229,27 +243,60 @@ namespace Chat.Client.ViewModel
         {
             using ( UserModel user = new UserModel(CurrentWindow.UsernameReg.Text, CurrentWindow.EmailReg.Text, CurrentWindow.PasswordBoxReg.Password) )
             {
-                if (SqliteDbHelper.Instance.IsAuthenticated(user))
+                try
                 {
-                    System.Windows.MessageBox.Show("This user is already exists in DB.\nGo to the Login Page.", "Authentication error", MessageBoxButton.OK); 
-                    this.GoToLoginPage();
-                }
-                else
-                {
-                    SqliteDbHelper.Instance.InsertDataIntoUserTable(user); 
                     if (SqliteDbHelper.Instance.IsAuthenticated(user))
                     {
-                        CurrentWindow.MessageReg.Text = "Successfully submitted!"; 
+                        System.Windows.MessageBox.Show("This user is already exists in DB.\nGo to the Login Page.", "Authentication error", MessageBoxButton.OK); 
+                        this.ClearRegistrationFields(); 
                         this.GoToLoginPage();
                     }
                     else
                     {
-                        CurrentWindow.MessageReg.Text = "Unable to insert user into database";
+                        SqliteDbHelper.Instance.InsertDataIntoUserTable(user); 
+                        if (SqliteDbHelper.Instance.IsAuthenticated(user))
+                        {
+                            CurrentWindow.MessageReg.Text = "Successfully submitted!"; 
+                            this.ClearRegistrationFields(); 
+                            this.GoToLoginPage();
+                        }
+                        else
+                        {
+                            CurrentWindow.MessageReg.Text = "Unable to insert user into database";
+                        }
                     }
+                }
+                catch (System.Exception e)
+                {
+                    System.Windows.MessageBox.Show($"Exception while getting user from database:\n{e}", "Database exception"); 
                 }
             }
         }
         #endregion  // Submit methods
+
+        #region Clearing field
+        /// <summary>
+        /// Allows to clear all fields on the Login Page 
+        /// </summary>
+        private void ClearLoginFields()
+        {
+            CurrentWindow.UsernameLogin.Text = System.String.Empty; 
+            CurrentWindow.PasswordLogin.Password = System.String.Empty; 
+            CurrentWindow.MessageLogin.Text = System.String.Empty; 
+        }
+
+        /// <summary>
+        /// Allows to clear all fields on the Registration Page 
+        /// </summary>
+        private void ClearRegistrationFields()
+        {
+            CurrentWindow.UsernameReg.Text = System.String.Empty; 
+            CurrentWindow.EmailReg.Text = System.String.Empty; 
+            CurrentWindow.PasswordBoxReg.Password = System.String.Empty; 
+            CurrentWindow.ConfirmPasswordBoxReg.Password = System.String.Empty; 
+            CurrentWindow.MessageReg.Text = System.String.Empty; 
+        }
+        #endregion  // Clearing field
 
         #region Communication methods 
         /// <summary>
