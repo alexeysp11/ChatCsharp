@@ -82,10 +82,35 @@ namespace Chat.Client.ViewModel
             
             // Set initial number of characters available in the message. 
             this.SetNumberOfAvailableCharsInTextBlock(); 
+
+            // Activate welcome page 
+            this.GoToWelcomePage(); 
         }
         #endregion  // Constructor
 
         #region Methods for going to an other page
+        /// <summary>
+        /// Allows to go to the welcome page  
+        /// </summary>
+        public void GoToWelcomePage()
+        {
+            // Welcome page
+            CurrentWindow.Welcome.Visibility = Visibility.Visible; 
+            CurrentWindow.Welcome.IsEnabled = true; 
+
+            // Registration page
+            CurrentWindow.Registration.Visibility = Visibility.Collapsed; 
+            CurrentWindow.Registration.IsEnabled = false; 
+
+            // Login page
+            CurrentWindow.Login.Visibility = Visibility.Collapsed; 
+            CurrentWindow.Login.IsEnabled = false; 
+
+            // UserPage page
+            CurrentWindow.UserPage.Visibility = Visibility.Collapsed; 
+            CurrentWindow.UserPage.IsEnabled = false; 
+        }
+
         /// <summary>
         /// Allows to go to the register page 
         /// </summary>
@@ -219,7 +244,7 @@ namespace Chat.Client.ViewModel
                 {
                     if (SqliteDbHelper.Instance.IsAuthenticated(user))
                     {
-                        System.Windows.MessageBox.Show("Successfully submitted!\nNow you can use the Chat.", "Welcome to the Chat!");
+                        System.Windows.MessageBox.Show("Successfully submitted!\nNow you can join the Chat.", "Welcome to the Chat!");
                         this.CurrentUser = user; 
                         this.ClearLoginFields(); 
                         this.GoToUserPage(); 

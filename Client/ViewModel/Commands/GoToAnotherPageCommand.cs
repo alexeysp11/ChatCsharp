@@ -33,6 +33,10 @@ namespace Chat.Client.Commands
             {
                 this._MainVM.GoToLoginPage(); 
             }
+            else if (parameterString == "WelcomePage")
+            {
+                this._MainVM.GoToWelcomePage(); 
+            }
             else
             {
                 System.Windows.MessageBox.Show($"Incorrect CommandParameter: {parameterString} inside GoToAnotherPageCommand", "Exception"); 
