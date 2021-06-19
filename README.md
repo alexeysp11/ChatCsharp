@@ -22,3 +22,5 @@ Dependencies for this application:
 - `System.ComponentModel.INotifyPropertyChanged` for *reporting changes to UI*; 
 - `System.Windows.Input.ICommand` for *commands* implementation; 
 - `System.IDisposable` for *GC*. 
+
+## Code snippets 
