@@ -3,7 +3,8 @@
 A simple Client-Server chat written in `C#`.
 
 This project consists of two projects: *client side app* and *server side app*. 
-*Client side application* is written using **WPF**, *server side application* is written as a **console app**. 
+*Client side application* is written using **WPF** and **MVVM** pattern. 
+*Server side application* is written as a **console app**. 
 
 ## How to use 
 
