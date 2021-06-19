@@ -52,8 +52,8 @@ namespace Chat.Client.Network
         public ChatTcpClient()
         {
             this.Ip = "127.0.0.0"; 
-            this.ServerName = ""; 
-            this.Port = 1300;
+            this.ServerName = "localhost"; 
+            this.Port = 13000;
             this.Client = new TcpClient(ServerName, Port);
         }
 
