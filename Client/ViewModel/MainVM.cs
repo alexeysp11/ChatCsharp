@@ -4,6 +4,7 @@ using Chat.Client.Commands;
 using Chat.Client.View;
 using Chat.Client.Exceptions;
 using Chat.Client.Database; 
+using Chat.Client.Network; 
 
 namespace Chat.Client.ViewModel
 {
@@ -21,6 +22,10 @@ namespace Chat.Client.ViewModel
         /// Allows to get all information about the user authenticated at the current time  
         /// </summary>
         public UserModel CurrentUser { get; private set; } = null; 
+        /// <summary>
+        /// Client for using netwrok and interacting with server and other clients
+        /// </summary>
+        private IProtocolClient Client = null; 
         #endregion  // Members
 
         #region ViewModels
@@ -67,6 +72,9 @@ namespace Chat.Client.ViewModel
             this.AuthCommand = new AuthCommand(this); 
             this.ExitCommand = new ExitCommand(this); 
             this.MessageCommand = new MessageCommand(this); 
+
+            // Initialize client for using network. 
+            this.Client = new ChatTcpClient("127.0.0.0", "localhost", 13000); 
 
             // Try to create a table for users. 
             try
@@ -185,6 +193,7 @@ namespace Chat.Client.ViewModel
             MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure to exit the application?", "Exit the application", MessageBoxButton.YesNo); 
             if (result == MessageBoxResult.Yes)
             {
+                this.Client.CloseConnection(); 
                 this.CurrentUser = null; 
                 Application.Current.Shutdown();
             }
@@ -332,6 +341,7 @@ namespace Chat.Client.ViewModel
         public void SendMessage()
         {
             this.MessagesVM.MessagesInChat += $"{this.CurrentUser.Name}: {this.MessagesVM.MessageToSend}\n"; 
+            this.Client.SendMessage(this.MessagesVM.MessageToSend); 
             this.MessagesVM.MessageToSend = System.String.Empty; 
         }
 

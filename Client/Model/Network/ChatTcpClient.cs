@@ -23,12 +23,16 @@ namespace Chat.Client.Network
         /// </summary>
         /// <value>Readonly property</value>
         private int Port { get; }
+        #endregion  // Configuration properties
+
+        #region Members
         /// <summary>
         /// Instance of TcpClient
         /// </summary>
         /// <value>Readonly property</value>
         private TcpClient Client { get; } = null; 
-        #endregion  // Configuration properties
+        NetworkStream _NetworkStream = null; 
+        #endregion  // Members
 
         #region Messaging properties
         /// <summary>
@@ -83,17 +87,13 @@ namespace Chat.Client.Network
             {
                 // Send data to the server 
                 this.MessageByte = System.Text.Encoding.ASCII.GetBytes(message); 
-                NetworkStream stream = this.Client.GetStream();
-                stream.Write(this.MessageByte, 0, this.MessageByte.Length);
+                this._NetworkStream = this.Client.GetStream();
+                this._NetworkStream.Write(this.MessageByte, 0, this.MessageByte.Length);
 
                 // Read the first batch of the TcpServer response bytes.
-                int bytes = stream.Read(ServerResponseByte, 0, ServerResponseByte.Length);
+                int bytes = this._NetworkStream.Read(ServerResponseByte, 0, ServerResponseByte.Length);
                 this.ServerResponseString = System.Text.Encoding.ASCII.GetString(ServerResponseByte, 0, bytes);
                 System.Windows.MessageBox.Show($"Received: {ServerResponseByte}");
-
-                // Close everything.
-                stream.Close();
-                this.Client.Close();
             }
             catch (System.ArgumentNullException e)
             {
@@ -108,6 +108,13 @@ namespace Chat.Client.Network
         public void GetMessage()
         {
 
+        }
+
+        public void CloseConnection()
+        {
+            // Close everything.
+            this._NetworkStream.Close();
+            this.Client.Close();
         }
         #endregion  // Methods
     }

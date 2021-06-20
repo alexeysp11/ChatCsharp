@@ -46,10 +46,6 @@ namespace Chat.Server.Network
         /// Response from server in bytes
         /// </summary>
         private byte[] ServerResponseByte = new byte[256]; 
-        /// <summary>
-        /// Response from server in string 
-        /// </summary>
-        private string ServerResponseString; 
         #endregion  // Messaging properties
 
         #region Constructors
@@ -85,6 +81,8 @@ namespace Chat.Server.Network
         /// </summary>
         public void Listen()
         {
+            TcpClient client = null;
+
             try
             {
                 // Start listening for client requests.
@@ -96,7 +94,7 @@ namespace Chat.Server.Network
 
                     // Perform a blocking call to accept requests.
                     // You could also use server.AcceptSocket() here.
-                    TcpClient client = this.Listener.AcceptTcpClient();
+                    client = this.Listener.AcceptTcpClient();
                     Console.WriteLine("Connected!");
 
                     this.MessageToReadString = null;
@@ -122,9 +120,6 @@ namespace Chat.Server.Network
                         stream.Write(msg, 0, msg.Length);
                         Console.WriteLine("Sent: {0}", this.MessageToReadString);
                     }
-
-                    // Shutdown and end connection
-                    client.Close();
                 }
             }
             catch (System.ArgumentNullException e)
@@ -137,6 +132,8 @@ namespace Chat.Server.Network
             }
             finally
             {
+                // Shutdown and end connection
+                client.Close();
                 this.Listener.Stop();       // Stop listening for new clients.
             }
         }

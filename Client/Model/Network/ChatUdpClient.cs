@@ -18,5 +18,10 @@ namespace Chat.Client.Network
         {
 
         }
+
+        public void CloseConnection()
+        {
+            
+        }
     }
 }

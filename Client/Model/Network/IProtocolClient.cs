@@ -6,7 +6,7 @@ namespace Chat.Client.Network
     public interface IProtocolClient
     {
         void SendMessage(string message);
-        
         void GetMessage();
+        void CloseConnection(); 
     }
 }
