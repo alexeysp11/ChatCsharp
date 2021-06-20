@@ -7,6 +7,19 @@ namespace Chat.Client.Network
     /// </summary>
     public class ChatTcpClient : IProtocolClient
     {
+        #region Members
+        /// <summary>
+        /// Instance of TcpClient
+        /// </summary>
+        /// <value>Private property for getting and setting</value>
+        private TcpClient Client { get; set; } = null; 
+        /// <summary>
+        /// Instance of NetworkStream 
+        /// </summary>
+        /// <value>Private property for getting and setting</value>
+        private NetworkStream _NetworkStream { get; set; } = null; 
+        #endregion  // Members
+
         #region Configuration properties
         /// <summary>
         /// IP address of TCP server
@@ -25,16 +38,12 @@ namespace Chat.Client.Network
         private int Port { get; }
         #endregion  // Configuration properties
 
-        #region Members
-        /// <summary>
-        /// Instance of TcpClient
-        /// </summary>
-        /// <value>Readonly property</value>
-        private TcpClient Client { get; } = null; 
-        NetworkStream _NetworkStream = null; 
-        #endregion  // Members
-
         #region Messaging properties
+        /// <summary>
+        /// Name of the user 
+        /// </summary>
+        /// <value></value>
+        private string Username { get; set; } 
         /// <summary>
         /// Message to send in bytes
         /// </summary>
@@ -53,12 +62,13 @@ namespace Chat.Client.Network
         /// <summary>
         /// Default constructor for ChatTcpClient class
         /// </summary>
-        public ChatTcpClient()
+        public ChatTcpClient(string username)
         {
             this.Ip = "127.0.0.0"; 
             this.ServerName = "localhost"; 
             this.Port = 13000;
-            this.Client = new TcpClient(ServerName, Port);
+            this.Username = username; 
+            this.SendMessage($"User {this.Username} connected"); 
         }
 
         /// <summary>
@@ -67,12 +77,13 @@ namespace Chat.Client.Network
         /// <param name="ip">Port of a TCP client</param>
         /// <param name="serverName">Name of a TCP server</param>
         /// <param name="port">Port of a TCP client</param>
-        public ChatTcpClient(string ip, string serverName, int port)
+        public ChatTcpClient(string ip, string serverName, int port, string username)
         {
             this.Ip = ip;
             this.ServerName = serverName; 
             this.Port = port;
-            this.Client = new TcpClient(ServerName, Port);
+            this.Username = username;
+            this.SendMessage($"User {this.Username} connected"); 
         }
         #endregion  // Constructors
 
@@ -83,6 +94,11 @@ namespace Chat.Client.Network
         /// <param name="message">Message to send</param>
         public void SendMessage(string message)
         {
+            if (this.Client == null)
+            {
+                this.Client = new TcpClient(this.ServerName, this.Port); 
+            }
+
             try
             {
                 // Send data to the server 
@@ -93,7 +109,8 @@ namespace Chat.Client.Network
                 // Read the first batch of the TcpServer response bytes.
                 int bytes = this._NetworkStream.Read(ServerResponseByte, 0, ServerResponseByte.Length);
                 this.ServerResponseString = System.Text.Encoding.ASCII.GetString(ServerResponseByte, 0, bytes);
-                System.Windows.MessageBox.Show($"Received: {ServerResponseByte}");
+
+                this.CloseConnection(); 
             }
             catch (System.ArgumentNullException e)
             {
@@ -110,11 +127,17 @@ namespace Chat.Client.Network
 
         }
 
+        /// <summary>
+        /// Allows to close everything
+        /// </summary>
         public void CloseConnection()
         {
-            // Close everything.
-            this._NetworkStream.Close();
-            this.Client.Close();
+            if (this.Client != null)
+            {
+                this._NetworkStream.Close();
+                this.Client.Close();
+                this.Client = null; 
+            }
         }
         #endregion  // Methods
     }

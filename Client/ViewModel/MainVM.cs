@@ -73,9 +73,6 @@ namespace Chat.Client.ViewModel
             this.ExitCommand = new ExitCommand(this); 
             this.MessageCommand = new MessageCommand(this); 
 
-            // Initialize client for using network. 
-            this.Client = new ChatTcpClient("127.0.0.0", "localhost", 13000); 
-
             // Try to create a table for users. 
             try
             {
@@ -193,6 +190,7 @@ namespace Chat.Client.ViewModel
             MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure to exit the application?", "Exit the application", MessageBoxButton.YesNo); 
             if (result == MessageBoxResult.Yes)
             {
+                this.Client.SendMessage($"User {this.CurrentUser.Name} exits the chat"); 
                 this.Client.CloseConnection(); 
                 this.CurrentUser = null; 
                 Application.Current.Shutdown();
@@ -255,6 +253,7 @@ namespace Chat.Client.ViewModel
                     {
                         System.Windows.MessageBox.Show("Successfully submitted!\nNow you can join the Chat.", "Welcome to the Chat!");
                         this.CurrentUser = user; 
+                        this.Client = new ChatTcpClient("127.0.0.0", "localhost", 13000, this.CurrentUser.Name); 
                         this.ClearLoginFields(); 
                         this.GoToUserPage(); 
                     }

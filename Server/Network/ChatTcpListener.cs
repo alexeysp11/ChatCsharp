@@ -9,6 +9,14 @@ namespace Chat.Server.Network
     /// </summary>
     public class ChatTcpListener : IProtocolListener
     {
+        #region Members
+        /// <summary>
+        /// Instance of TcpListener
+        /// </summary>
+        /// <value>Readonly property</value>
+        private TcpListener Listener { get; } = null; 
+        #endregion  // Members
+        
         #region Configuration properties
         /// <summary>
         /// IP address of TCP server
@@ -25,15 +33,9 @@ namespace Chat.Server.Network
         /// </summary>
         /// <value>Readonly property</value>
         private int Port { get; }
-        /// <summary>
-        /// Instance of TcpListener
-        /// </summary>
-        /// <value>Readonly property</value>
-        private TcpListener Listener { get; } = null; 
         #endregion  // Configuration properties
 
         #region Messaging properties
-        
         /// <summary>
         /// Message to read in bytes
         /// </summary>
@@ -112,7 +114,7 @@ namespace Chat.Server.Network
                         Console.WriteLine("Received: {0}", this.MessageToReadString);
 
                         // Process the data sent by the client.
-                        this.MessageToReadString = this.MessageToReadString.ToUpper();
+                        this.MessageToReadString = this.MessageToReadString;
 
                         byte[] msg = System.Text.Encoding.ASCII.GetBytes(this.MessageToReadString);
 
