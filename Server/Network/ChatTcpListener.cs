@@ -1,4 +1,5 @@
 using System; 
+using System.Collections.Generic; 
 using System.Net; 
 using System.Net.Sockets; 
 
@@ -16,7 +17,7 @@ namespace Chat.Server.Network
         /// <value>Readonly property</value>
         private TcpListener Listener { get; } = null; 
         #endregion  // Members
-        
+
         #region Configuration properties
         /// <summary>
         /// IP address of TCP server
@@ -45,9 +46,13 @@ namespace Chat.Server.Network
         /// </summary>
         private string MessageToReadString; 
         /// <summary>
+        /// 
+        /// </summary>
+        private int MessagesNumber = 0; 
+        /// <summary>
         /// Response from server in bytes
         /// </summary>
-        private byte[] ServerResponseByte = new byte[256]; 
+        private List<string> MessagesList = new List<string>(); 
         #endregion  // Messaging properties
 
         #region Constructors
@@ -84,58 +89,82 @@ namespace Chat.Server.Network
         public void Listen()
         {
             TcpClient client = null;
+            List<Message> msgList = new List<Message>();
+            this.MessageToReadString = null;
+            byte id = 0; 
+            byte msgIndex = 0; 
 
             try
             {
-                // Start listening for client requests.
-                this.Listener.Start();
-
+                Listener.Start();
                 while(true)
                 {
-                    Console.Write("Waiting for a connection... ");
+                    byte[] MessageToReadByte = new byte[256]; 
+                    
+                    Console.Write("[OK] ");
 
-                    // Perform a blocking call to accept requests.
-                    // You could also use server.AcceptSocket() here.
-                    client = this.Listener.AcceptTcpClient();
-                    Console.WriteLine("Connected!");
-
-                    this.MessageToReadString = null;
-
-                    // Get a stream object for reading and writing
+                    // Get client and stream. 
+                    client = Listener.AcceptTcpClient();
                     NetworkStream stream = client.GetStream();
-
-                    int i;
-
-                    // Loop to receive all the data sent by the client.
-                    while( (i = stream.Read(this.MessageToReadByte, 0, this.MessageToReadByte.Length)) != 0 )
+                    
+                    // Read bytes from the stream. 
+                    int msgLength = stream.Read(MessageToReadByte, 0, MessageToReadByte.Length); 
+                                        
+                    // Process request. 
+                    if (MessageToReadByte[1] == 1)  // Request for messages. 
                     {
-                        // Translate data bytes to a ASCII string.
-                        this.MessageToReadString = System.Text.Encoding.ASCII.GetString(this.MessageToReadByte, 0, i);
-                        Console.WriteLine("Received: {0}", this.MessageToReadString);
+                        byte[] responseByte = new byte[1]; 
+                        System.Console.WriteLine($"Request for messages from User{MessageToReadByte[0]}");
+                        
+                        // Assign messages in bytes and string. 
+                        string messageString = "";
+                        msgIndex = MessageToReadByte[2]; 
 
-                        // Process the data sent by the client.
-                        this.MessageToReadString = this.MessageToReadString;
+                        // Get string of messages from the last request. 
+                        List<Message> msgListFromLastRequest = msgList.GetRange(msgIndex, msgList.Count - msgIndex);
+                        foreach (var messageObject in msgListFromLastRequest)
+                        {
+                            messageString += $"User{messageObject.ClientId}: {messageObject.Text}\n"; 
+                        }
+                        
+                        // Encode the message. 
+                        byte[] text = System.Text.Encoding.ASCII.GetBytes(messageString); 
+                        byte[] messages = new byte[text.Length + 2]; 
+                        messages[0] = MessageToReadByte[0]; 
+                        messages[1] = MessageToReadByte[1]; 
+                        for (int i = 0; i < text.Length; i++)
+                        {
+                            messages[i+2] = text[i]; 
+                        }
 
-                        byte[] msg = System.Text.Encoding.ASCII.GetBytes(this.MessageToReadString);
+                        System.Console.WriteLine($"{messages[0]} {messages[1]} {messageString}.\nSize: {messages.Length}");
 
-                        // Send back a response.
-                        stream.Write(msg, 0, msg.Length);
-                        Console.WriteLine("Sent: {0}", this.MessageToReadString);
+                        // Send messages using stream. 
+                        stream.Write(messages, 0, messages.Length); 
+                    }
+                    else if (MessageToReadByte[1] == 2)     // Request for registration. 
+                    {
+                        id += 1; 
+                        byte[] IDs = new byte[1]; 
+                        IDs[0] = id; 
+                        stream.Write(IDs, 0, IDs.Length); 
+                        System.Console.WriteLine($"User{id} connected");
+                    }
+                    else                                    // Usually it's ordanary message with code 0. 
+                    {
+                        string text = System.Text.Encoding.ASCII.GetString(MessageToReadByte, 2, msgLength); 
+                        msgList.Add( new Message(MessageToReadByte[0], MessageToReadByte[1], text) ); 
+                        System.Console.WriteLine($"User{MessageToReadByte[0]}: {text}");
                     }
                 }
             }
-            catch (System.ArgumentNullException e)
+            catch (System.Exception e)
             {
-                System.Console.WriteLine($"ArgumentNullException: {e}");
-            }
-            catch (SocketException e)
-            {
-                System.Console.WriteLine($"SocketException: {e}");
+                throw e;
             }
             finally
             {
-                // Shutdown and end connection
-                client.Close();
+                client.Close();             // Shutdown and end connection. 
                 this.Listener.Stop();       // Stop listening for new clients.
             }
         }

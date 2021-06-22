@@ -9,14 +9,14 @@ namespace Chat.Client.Network
         /// Allows to send data to the server 
         /// </summary>
         /// <param name="message">Message to send</param>
-        public void SendMessage(string message)
+        public void SendMessage(string message, bool isConfig=true)
         {
             
         }
 
-        public void GetMessage()
+        public string GetMessages()
         {
-
+            return string.Empty; 
         }
 
         public void CloseConnection()

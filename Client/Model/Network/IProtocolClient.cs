@@ -5,8 +5,8 @@ namespace Chat.Client.Network
     /// </summary>
     public interface IProtocolClient
     {
-        void SendMessage(string message);
-        void GetMessage();
+        void SendMessage(string message, bool isConfig=true);
+        string GetMessages();
         void CloseConnection(); 
     }
 }

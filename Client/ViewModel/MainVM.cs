@@ -1,5 +1,6 @@
 using System.Windows; 
 using System.Windows.Input; 
+using System.Windows.Threading; 
 using Chat.Client.Commands;
 using Chat.Client.View;
 using Chat.Client.Exceptions;
@@ -26,6 +27,13 @@ namespace Chat.Client.ViewModel
         /// Client for using netwrok and interacting with server and other clients
         /// </summary>
         private IProtocolClient Client = null; 
+        /// <summary>
+        /// Timer for getting messages from the server . 
+        /// </summary>
+        /// <remarks>
+        /// Started after user joined the chat after LoginPage. 
+        /// </remarks>
+        DispatcherTimer GettingMsgTimer = null;
         #endregion  // Members
 
         #region ViewModels
@@ -72,6 +80,9 @@ namespace Chat.Client.ViewModel
             this.AuthCommand = new AuthCommand(this); 
             this.ExitCommand = new ExitCommand(this); 
             this.MessageCommand = new MessageCommand(this); 
+
+            // Timers. 
+            GettingMsgTimer = new DispatcherTimer();
 
             // Try to create a table for users. 
             try
@@ -150,10 +161,12 @@ namespace Chat.Client.ViewModel
             // Registration page
             CurrentWindow.Registration.Visibility = Visibility.Collapsed; 
             CurrentWindow.Registration.IsEnabled = false; 
+            this.ClearRegistrationFields(); 
 
             // Login page
             CurrentWindow.Login.Visibility = Visibility.Visible; 
             CurrentWindow.Login.IsEnabled = true; 
+            this.ClearLoginFields(); 
 
             // UserPage page
             CurrentWindow.UserPage.Visibility = Visibility.Collapsed; 
@@ -172,14 +185,21 @@ namespace Chat.Client.ViewModel
             // Registration page
             CurrentWindow.Registration.Visibility = Visibility.Collapsed; 
             CurrentWindow.Registration.IsEnabled = false; 
+            this.ClearRegistrationFields(); 
 
             // Login page
             CurrentWindow.Login.Visibility = Visibility.Collapsed; 
             CurrentWindow.Login.IsEnabled = false; 
+            this.ClearLoginFields(); 
 
             // UserPage page
             CurrentWindow.UserPage.Visibility = Visibility.Visible; 
             CurrentWindow.UserPage.IsEnabled = true; 
+
+            // Timer for getting messages from the server. 
+            GettingMsgTimer.Tick += GetMessages;
+            GettingMsgTimer.Interval = System.TimeSpan.FromSeconds(2);
+            GettingMsgTimer.Start();
         }
 
         /// <summary>
@@ -190,10 +210,21 @@ namespace Chat.Client.ViewModel
             MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure to exit the application?", "Exit the application", MessageBoxButton.YesNo); 
             if (result == MessageBoxResult.Yes)
             {
-                this.Client.SendMessage($"User {this.CurrentUser.Name} exits the chat"); 
-                this.Client.CloseConnection(); 
-                this.CurrentUser = null; 
-                Application.Current.Shutdown();
+                try
+                {
+                    this.Client.SendMessage($"User {this.CurrentUser.Name} disconnected"); 
+                    this.Client.CloseConnection(); 
+                }
+                catch (System.Exception e)
+                {
+                    System.Windows.MessageBox.Show($"Exception:\n{e}", "Exception"); 
+                }
+                finally
+                {
+                    this.GettingMsgTimer.Stop(); 
+                    this.CurrentUser = null; 
+                    Application.Current.Shutdown();
+                }
             }
         }
         #endregion  // Methods for going to an other page
@@ -339,9 +370,16 @@ namespace Chat.Client.ViewModel
         /// </summary>
         public void SendMessage()
         {
-            this.MessagesVM.MessagesInChat += $"{this.CurrentUser.Name}: {this.MessagesVM.MessageToSend}\n"; 
-            this.Client.SendMessage(this.MessagesVM.MessageToSend); 
-            this.MessagesVM.MessageToSend = System.String.Empty; 
+            try
+            {
+                string msg = $"{this.CurrentUser.Name}: {this.MessagesVM.MessageToSend}"; 
+                this.Client.SendMessage(msg, false); 
+                this.MessagesVM.MessageToSend = System.String.Empty; 
+            }
+            catch (System.Exception e)
+            {
+                System.Windows.MessageBox.Show($"Exception:\n{e}", "Exception"); 
+            }
         }
 
         /// <summary>
@@ -352,6 +390,15 @@ namespace Chat.Client.ViewModel
         {
             int maxLength = this.CurrentWindow.MessageToSendTextBox.MaxLength; 
             this.MessagesVM.CharsAvailable = $" ({maxLength - charsInMessage}/{maxLength}) "; 
+        }
+
+        /// <summary>
+        /// Method for getting messages from the server
+        /// </summary>
+        public void GetMessages(object sender, System.EventArgs e)
+        {
+            string msg = this.Client.GetMessages(); 
+            this.MessagesVM.MessagesInChat = $"{msg}\n"; 
         }
         #endregion  // Communication methods 
     }
