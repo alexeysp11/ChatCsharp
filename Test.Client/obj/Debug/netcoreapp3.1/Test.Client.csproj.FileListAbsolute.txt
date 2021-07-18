@@ -133,3 +133,5 @@ C:\Users\User\Desktop\projects\Server\ServerCsharp\ChatCsharp\Test.Client\obj\De
 C:\Users\User\Desktop\projects\Server\ServerCsharp\ChatCsharp\Test.Client\obj\Debug\netcoreapp3.1\Test.Client.dll
 C:\Users\User\Desktop\projects\Server\ServerCsharp\ChatCsharp\Test.Client\obj\Debug\netcoreapp3.1\Test.Client.pdb
 C:\Users\User\Desktop\projects\Server\ServerCsharp\ChatCsharp\Test.Client\obj\Debug\netcoreapp3.1\Test.Client.genruntimeconfig.cache
+C:\Users\User\Desktop\projects\Server\ServerCsharp\ChatCsharp\Test.Client\bin\Debug\netcoreapp3.1\Network.dll
+C:\Users\User\Desktop\projects\Server\ServerCsharp\ChatCsharp\Test.Client\bin\Debug\netcoreapp3.1\Network.pdb

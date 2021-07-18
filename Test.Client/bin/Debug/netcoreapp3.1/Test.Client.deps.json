@@ -1201,10 +1201,16 @@
       },
       "Client/1.0.0": {
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.Sqlite": "3.1.0"
+          "Microsoft.EntityFrameworkCore.Sqlite": "3.1.0",
+          "Network": "1.0.0"
         },
         "runtime": {
           "Client.dll": {}
+        }
+      },
+      "Network/1.0.0": {
+        "runtime": {
+          "Network.dll": {}
         }
       }
     }
@@ -1874,6 +1880,11 @@
       "hashPath": "system.xml.xpath.xmldocument.4.3.0.nupkg.sha512"
     },
     "Client/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Network/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

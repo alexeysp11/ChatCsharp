@@ -1,4 +1,4 @@
-﻿using Chat.Server.Network; 
+﻿using Chat.Network.Server; 
 
 namespace Chat.Server
 {
@@ -8,14 +8,17 @@ namespace Chat.Server
         {
             System.Console.WriteLine("WELCOME TO THE CHAT SERVER");
 
-            try
+            while (true)
             {
-                IProtocolListener listener = new ChatTcpListener(); 
-                listener.Listen(); 
-            }
-            catch (System.Exception ex)
-            {
-                System.Console.WriteLine($"Exception:\n{ex}");
+                try
+                {
+                    IProtocolListener listener = new ChatTcpListener(); 
+                    listener.Listen(); 
+                }
+                catch (System.Exception ex)
+                {
+                    System.Console.WriteLine($"Exception:\n{ex}");
+                }
             }
         }
     }

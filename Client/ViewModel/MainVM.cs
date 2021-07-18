@@ -1,66 +1,30 @@
-using System.Windows; 
-using System.Windows.Input; 
-using System.Windows.Threading; 
+using System.Windows;
+using System.Windows.Input;
+using System.Windows.Threading;
 using Chat.Client.Commands;
 using Chat.Client.View;
-using Chat.Client.Exceptions;
-using Chat.Client.Database; 
-using Chat.Client.Network; 
+using Chat.Client.Database;
+using Chat.Network.Client;
 
 namespace Chat.Client.ViewModel
 {
-    /// <summary>
-    /// Main ViewModel that connects database and MainWindow
-    /// </summary>
     public class MainVM
     {
-        #region Members
-        /// <summary>
-        /// Allows to get current window and close it while moving to an other window
-        /// </summary>
-        public MainWindow CurrentWindow { get; private set; } = null; 
-        /// <summary>
-        /// Allows to get all information about the user authenticated at the current time  
-        /// </summary>
-        public UserModel CurrentUser { get; private set; } = null; 
-        /// <summary>
-        /// Client for using netwrok and interacting with server and other clients
-        /// </summary>
-        private IProtocolClient Client = null; 
-        /// <summary>
-        /// Timer for getting messages from the server . 
-        /// </summary>
-        /// <remarks>
-        /// Started after user joined the chat after LoginPage. 
-        /// </remarks>
-        DispatcherTimer GettingMsgTimer = null;
-        #endregion  // Members
+        #region Properties 
+        public MainWindow ActiveWindow { get; private set; } = null; 
 
-        #region ViewModels
-        /// <summary>
-        /// ViewModel for displaying messages 
-        /// </summary>
-        public MessagesVM MessagesVM { get; private set; }
-        #endregion  // ViewModels
+        public UserModel ActiveUser { get; private set; } = null; 
+        private IProtocolClient NetworkClient = null; 
 
-        #region Commands
-        /// <summary>
-        /// Allows to move to an other window
-        /// </summary>
-        public ICommand GoToAnotherPageCommand { get; private set; }
-        /// <summary>
-        /// Allows to authenticate users
-        /// </summary>
+        private readonly DispatcherTimer GetMsgTimer = null;
+        
+        public DispMsgVM DispMsgVM { get; private set; }
+        
+        public ICommand RedirectCommand { get; private set; }
         public ICommand AuthCommand { get; private set; }
-        /// <summary>
-        /// Allows to exit the application 
-        /// </summary>
         public ICommand ExitCommand { get; private set; }
-        /// <summary>
-        /// Sends a message to the chat 
-        /// </summary>
-        public ICommand MessageCommand { get; private set; }
-        #endregion  // Commands
+        public ICommand SendMsgCommand { get; private set; }
+        #endregion  // Properties 
 
         #region Constructor
         /// <summary>
@@ -69,22 +33,18 @@ namespace Chat.Client.ViewModel
         /// <param name="mainWindow">Instance of MainWindow (for convinient way to access UI elements)</param>
         public MainVM(MainWindow mainWindow)
         {
-            // Initialize property for getting MainWindow from the code.  
-            CurrentWindow = mainWindow; 
+            ActiveWindow = mainWindow; 
 
-            // ViewModels. 
-            this.MessagesVM = new MessagesVM(this); 
+            this.DispMsgVM = new DispMsgVM(this); 
 
-            // Commands. 
-            this.GoToAnotherPageCommand = new GoToAnotherPageCommand(this); 
+            this.RedirectCommand = new RedirectCommand(this); 
             this.AuthCommand = new AuthCommand(this); 
             this.ExitCommand = new ExitCommand(this); 
-            this.MessageCommand = new MessageCommand(this); 
+            this.SendMsgCommand = new SendMsgCommand(this); 
 
-            // Timers. 
-            GettingMsgTimer = new DispatcherTimer();
+            GetMsgTimer = new DispatcherTimer();
 
-            // Try to create a table for users. 
+            // Try to create a table for users inside DB. 
             try
             {
                 DatabasePath path = new DatabasePath(); 
@@ -96,124 +56,109 @@ namespace Chat.Client.ViewModel
                 System.Windows.MessageBox.Show($"Failed to create database:\n{e}"); 
             }
             
-            // Set initial number of characters available in the message. 
-            this.SetNumberOfAvailableCharsInTextBlock(); 
-
-            // Activate welcome page 
+            this.SetNumAvailableCharsInMsg(); 
             this.GoToWelcomePage(); 
         }
         #endregion  // Constructor
 
         #region Methods for going to an other page
-        /// <summary>
-        /// Allows to go to the welcome page  
-        /// </summary>
         public void GoToWelcomePage()
         {
             // Welcome page
-            CurrentWindow.Welcome.Visibility = Visibility.Visible; 
-            CurrentWindow.Welcome.IsEnabled = true; 
+            ActiveWindow.Welcome.Visibility = Visibility.Visible; 
+            ActiveWindow.Welcome.IsEnabled = true; 
 
             // Registration page
-            CurrentWindow.Registration.Visibility = Visibility.Collapsed; 
-            CurrentWindow.Registration.IsEnabled = false; 
+            ActiveWindow.Registration.Visibility = Visibility.Collapsed; 
+            ActiveWindow.Registration.IsEnabled = false; 
 
             // Login page
-            CurrentWindow.Login.Visibility = Visibility.Collapsed; 
-            CurrentWindow.Login.IsEnabled = false; 
+            ActiveWindow.Login.Visibility = Visibility.Collapsed; 
+            ActiveWindow.Login.IsEnabled = false; 
 
             // UserPage page
-            CurrentWindow.UserPage.Visibility = Visibility.Collapsed; 
-            CurrentWindow.UserPage.IsEnabled = false; 
+            ActiveWindow.UserPage.Visibility = Visibility.Collapsed; 
+            ActiveWindow.UserPage.IsEnabled = false; 
         }
 
-        /// <summary>
-        /// Allows to go to the register page 
-        /// </summary>
         public void GoToRegisterPage()
         {
             // Welcome page
-            CurrentWindow.Welcome.Visibility = Visibility.Collapsed; 
-            CurrentWindow.Welcome.IsEnabled = false; 
+            ActiveWindow.Welcome.Visibility = Visibility.Collapsed; 
+            ActiveWindow.Welcome.IsEnabled = false; 
 
             // Registration page
-            CurrentWindow.Registration.Visibility = Visibility.Visible; 
-            CurrentWindow.Registration.IsEnabled = true; 
+            ActiveWindow.Registration.Visibility = Visibility.Visible; 
+            ActiveWindow.Registration.IsEnabled = true; 
 
             // Login page
-            CurrentWindow.Login.Visibility = Visibility.Collapsed; 
-            CurrentWindow.Login.IsEnabled = false; 
+            ActiveWindow.Login.Visibility = Visibility.Collapsed; 
+            ActiveWindow.Login.IsEnabled = false; 
 
             // UserPage page
-            CurrentWindow.UserPage.Visibility = Visibility.Collapsed; 
-            CurrentWindow.UserPage.IsEnabled = false; 
+            ActiveWindow.UserPage.Visibility = Visibility.Collapsed; 
+            ActiveWindow.UserPage.IsEnabled = false; 
         }
 
-        /// <summary>
-        /// Allows to go to the login page
-        /// </summary>
         public void GoToLoginPage()
         {
             // Welcome page
-            CurrentWindow.Welcome.Visibility = Visibility.Collapsed; 
-            CurrentWindow.Welcome.IsEnabled = false; 
+            ActiveWindow.Welcome.Visibility = Visibility.Collapsed; 
+            ActiveWindow.Welcome.IsEnabled = false; 
 
             // Registration page
-            CurrentWindow.Registration.Visibility = Visibility.Collapsed; 
-            CurrentWindow.Registration.IsEnabled = false; 
+            ActiveWindow.Registration.Visibility = Visibility.Collapsed; 
+            ActiveWindow.Registration.IsEnabled = false; 
             this.ClearRegistrationFields(); 
 
             // Login page
-            CurrentWindow.Login.Visibility = Visibility.Visible; 
-            CurrentWindow.Login.IsEnabled = true; 
+            ActiveWindow.Login.Visibility = Visibility.Visible; 
+            ActiveWindow.Login.IsEnabled = true; 
             this.ClearLoginFields(); 
 
             // UserPage page
-            CurrentWindow.UserPage.Visibility = Visibility.Collapsed; 
-            CurrentWindow.UserPage.IsEnabled = false; 
+            ActiveWindow.UserPage.Visibility = Visibility.Collapsed; 
+            ActiveWindow.UserPage.IsEnabled = false; 
         }
 
-        /// <summary>
-        /// Allows to go to the user page
-        /// </summary>
         public void GoToUserPage()
         {
             // Welcome page
-            CurrentWindow.Welcome.Visibility = Visibility.Collapsed; 
-            CurrentWindow.Welcome.IsEnabled = false; 
+            ActiveWindow.Welcome.Visibility = Visibility.Collapsed; 
+            ActiveWindow.Welcome.IsEnabled = false; 
 
             // Registration page
-            CurrentWindow.Registration.Visibility = Visibility.Collapsed; 
-            CurrentWindow.Registration.IsEnabled = false; 
+            ActiveWindow.Registration.Visibility = Visibility.Collapsed; 
+            ActiveWindow.Registration.IsEnabled = false; 
             this.ClearRegistrationFields(); 
 
             // Login page
-            CurrentWindow.Login.Visibility = Visibility.Collapsed; 
-            CurrentWindow.Login.IsEnabled = false; 
+            ActiveWindow.Login.Visibility = Visibility.Collapsed; 
+            ActiveWindow.Login.IsEnabled = false; 
             this.ClearLoginFields(); 
 
             // UserPage page
-            CurrentWindow.UserPage.Visibility = Visibility.Visible; 
-            CurrentWindow.UserPage.IsEnabled = true; 
+            ActiveWindow.UserPage.Visibility = Visibility.Visible; 
+            ActiveWindow.UserPage.IsEnabled = true; 
 
             // Timer for getting messages from the server. 
-            GettingMsgTimer.Tick += GetMessages;
-            GettingMsgTimer.Interval = System.TimeSpan.FromSeconds(2);
-            GettingMsgTimer.Start();
+            GetMsgTimer.Tick += GetMsgFromServer;
+            GetMsgTimer.Interval = System.TimeSpan.FromSeconds(10);
+            GetMsgTimer.Start();
         }
 
-        /// <summary>
-        /// Allows to exit the application 
-        /// </summary>
-        public void Exit()
+        public void CloseApp()
         {
             MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure to exit the application?", "Exit the application", MessageBoxButton.YesNo); 
             if (result == MessageBoxResult.Yes)
             {
                 try
                 {
-                    this.Client.SendMessage($"User {this.CurrentUser.Name} disconnected"); 
-                    this.Client.CloseConnection(); 
+                    if (this.NetworkClient != null)
+                    {
+                        this.NetworkClient.SendMessage($"User {this.ActiveUser.Name} disconnected"); 
+                        this.NetworkClient.CloseConnection(); 
+                    }
                 }
                 catch (System.Exception e)
                 {
@@ -221,8 +166,8 @@ namespace Chat.Client.ViewModel
                 }
                 finally
                 {
-                    this.GettingMsgTimer.Stop(); 
-                    this.CurrentUser = null; 
+                    this.GetMsgTimer.Stop(); 
+                    this.ActiveUser = null; 
                     Application.Current.Shutdown();
                 }
             }
@@ -230,61 +175,52 @@ namespace Chat.Client.ViewModel
         #endregion  // Methods for going to an other page
 
         #region Submit methods
-        /// <summary>
-        /// Allows get if user exists in database 
-        /// </summary>
         public void SubmitLogin()
         {
-            if (string.IsNullOrWhiteSpace(CurrentWindow.UsernameLogin.Text) ||
-                string.IsNullOrWhiteSpace(CurrentWindow.PasswordLogin.Password))
+            if (string.IsNullOrWhiteSpace(ActiveWindow.UsernameLogin.Text) ||
+                string.IsNullOrWhiteSpace(ActiveWindow.PasswordLogin.Password))
             {
-                CurrentWindow.MessageLogin.Text = "Fill in all fields, please!";
+                ActiveWindow.MessageLogin.Text = "Fill in all fields, please!";
             }
             else
             {
-                this.CheckUserInDatabaseOnLogin();  // Check if this user already exists in database. 
+                this.CheckUserInDbOnLogin();  
             }
         }
 
-        /// <summary>
-        /// Allows to save user in the database on the register page
-        /// </summary>
         public void SubmitRegistration()
         {
-            if (string.IsNullOrWhiteSpace(CurrentWindow.UsernameReg.Text) ||
-                string.IsNullOrWhiteSpace(CurrentWindow.EmailReg.Text) ||
-                string.IsNullOrWhiteSpace(CurrentWindow.PasswordBoxReg.Password) ||
-                string.IsNullOrWhiteSpace(CurrentWindow.ConfirmPasswordBoxReg.Password))
+            if (string.IsNullOrWhiteSpace(ActiveWindow.UsernameReg.Text) ||
+                string.IsNullOrWhiteSpace(ActiveWindow.EmailReg.Text) ||
+                string.IsNullOrWhiteSpace(ActiveWindow.PasswordBoxReg.Password) ||
+                string.IsNullOrWhiteSpace(ActiveWindow.ConfirmPasswordBoxReg.Password))
             {
-                CurrentWindow.MessageReg.Text = "Fill in all fields, please!";
+                ActiveWindow.MessageReg.Text = "Fill in all fields, please!";
             }
             else
             {
-                if (CurrentWindow.PasswordBoxReg.Password == CurrentWindow.ConfirmPasswordBoxReg.Password)
+                if (ActiveWindow.PasswordBoxReg.Password == ActiveWindow.ConfirmPasswordBoxReg.Password)
                 {
                     this.RegisterUserInDb();    // Insert new user into DB 
                 }
                 else
                 {
-                    CurrentWindow.MessageReg.Text = "Passwords do not match!";
+                    ActiveWindow.MessageReg.Text = "Passwords do not match!";
                 }
             }
         }
 
-        /// <summary>
-        /// Allows to check if the user exists in the database
-        /// </summary>
-        private void CheckUserInDatabaseOnLogin()
+        private void CheckUserInDbOnLogin()
         {
-            using ( UserModel user = new UserModel(CurrentWindow.UsernameLogin.Text, null, CurrentWindow.PasswordLogin.Password) )
+            using ( UserModel user = new UserModel(ActiveWindow.UsernameLogin.Text, null, ActiveWindow.PasswordLogin.Password) )
             {
                 try
                 {
                     if (SqliteDbHelper.Instance.IsAuthenticated(user))
                     {
                         System.Windows.MessageBox.Show("Successfully submitted!\nNow you can join the Chat.", "Welcome to the Chat!");
-                        this.CurrentUser = user; 
-                        this.Client = new ChatTcpClient("127.0.0.0", "localhost", 13000, this.CurrentUser.Name); 
+                        this.ActiveUser = user; 
+                        this.NetworkClient = new ChatTcpClient("127.0.0.0", "localhost", 13000, this.ActiveUser.Name); 
                         this.ClearLoginFields(); 
                         this.GoToUserPage(); 
                     }
@@ -302,12 +238,9 @@ namespace Chat.Client.ViewModel
             }
         }
 
-        /// <summary>
-        /// Allows to insert users into database 
-        /// </summary>
         private void RegisterUserInDb()
         {
-            using ( UserModel user = new UserModel(CurrentWindow.UsernameReg.Text, CurrentWindow.EmailReg.Text, CurrentWindow.PasswordBoxReg.Password) )
+            using ( UserModel user = new UserModel(ActiveWindow.UsernameReg.Text, ActiveWindow.EmailReg.Text, ActiveWindow.PasswordBoxReg.Password) )
             {
                 try
                 {
@@ -322,13 +255,13 @@ namespace Chat.Client.ViewModel
                         SqliteDbHelper.Instance.InsertDataIntoUserTable(user); 
                         if (SqliteDbHelper.Instance.IsAuthenticated(user))
                         {
-                            CurrentWindow.MessageReg.Text = "Successfully submitted!"; 
+                            ActiveWindow.MessageReg.Text = "Successfully submitted!"; 
                             this.ClearRegistrationFields(); 
                             this.GoToLoginPage();
                         }
                         else
                         {
-                            CurrentWindow.MessageReg.Text = "Unable to insert user into database";
+                            ActiveWindow.MessageReg.Text = "Unable to insert user into database";
                         }
                     }
                 }
@@ -341,40 +274,32 @@ namespace Chat.Client.ViewModel
         #endregion  // Submit methods
 
         #region Clearing field
-        /// <summary>
-        /// Allows to clear all fields on the Login Page 
-        /// </summary>
         private void ClearLoginFields()
         {
-            CurrentWindow.UsernameLogin.Text = System.String.Empty; 
-            CurrentWindow.PasswordLogin.Password = System.String.Empty; 
-            CurrentWindow.MessageLogin.Text = System.String.Empty; 
+            ActiveWindow.UsernameLogin.Text = System.String.Empty; 
+            ActiveWindow.PasswordLogin.Password = System.String.Empty; 
+            ActiveWindow.MessageLogin.Text = System.String.Empty; 
         }
 
-        /// <summary>
-        /// Allows to clear all fields on the Registration Page 
-        /// </summary>
         private void ClearRegistrationFields()
         {
-            CurrentWindow.UsernameReg.Text = System.String.Empty; 
-            CurrentWindow.EmailReg.Text = System.String.Empty; 
-            CurrentWindow.PasswordBoxReg.Password = System.String.Empty; 
-            CurrentWindow.ConfirmPasswordBoxReg.Password = System.String.Empty; 
-            CurrentWindow.MessageReg.Text = System.String.Empty; 
+            ActiveWindow.UsernameReg.Text = System.String.Empty; 
+            ActiveWindow.EmailReg.Text = System.String.Empty; 
+            ActiveWindow.PasswordBoxReg.Password = System.String.Empty; 
+            ActiveWindow.ConfirmPasswordBoxReg.Password = System.String.Empty; 
+            ActiveWindow.MessageReg.Text = System.String.Empty; 
         }
         #endregion  // Clearing field
 
         #region Communication methods 
-        /// <summary>
-        /// Sends message via TCP/UDP protocols 
-        /// </summary>
         public void SendMessage()
         {
             try
             {
-                string msg = $"{this.CurrentUser.Name}: {this.MessagesVM.MessageToSend}"; 
-                this.Client.SendMessage(msg, false); 
-                this.MessagesVM.MessageToSend = System.String.Empty; 
+                string msg = $"{this.ActiveUser.Name}: {this.DispMsgVM.MessageToSend}"; 
+                this.NetworkClient.SendMessage(msg, true); 
+                this.DispMsgVM.MessagesInChat += $"{msg}\n"; 
+                this.DispMsgVM.MessageToSend = System.String.Empty; 
             }
             catch (System.Exception e)
             {
@@ -386,19 +311,19 @@ namespace Chat.Client.ViewModel
         /// Sets string to display number of available chars while typing the message 
         /// </summary>
         /// <param name="charsInMessage">Number of characters in the current message</param>
-        public void SetNumberOfAvailableCharsInTextBlock(int charsInMessage=0)
+        public void SetNumAvailableCharsInMsg(int charsInMessage=0)
         {
-            int maxLength = this.CurrentWindow.MessageToSendTextBox.MaxLength; 
-            this.MessagesVM.CharsAvailable = $" ({maxLength - charsInMessage}/{maxLength}) "; 
+            int maxLength = this.ActiveWindow.MessageToSendTextBox.MaxLength; 
+            this.DispMsgVM.CharsAvailable = $" ({maxLength - charsInMessage}/{maxLength}) "; 
         }
 
-        /// <summary>
-        /// Method for getting messages from the server
-        /// </summary>
-        public void GetMessages(object sender, System.EventArgs e)
+        public void GetMsgFromServer(object sender, System.EventArgs e)
         {
-            string msg = this.Client.GetMessages(); 
-            this.MessagesVM.MessagesInChat = $"{msg}\n"; 
+            string msg = this.NetworkClient.GetMessages(); 
+            if (msg != string.Empty)
+            {
+                this.DispMsgVM.MessagesInChat += msg; 
+            }
         }
         #endregion  // Communication methods 
     }

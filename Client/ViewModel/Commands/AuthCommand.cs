@@ -4,16 +4,12 @@ namespace Chat.Client.Commands
 {
     public class AuthCommand : System.Windows.Input.ICommand
     {
-        #region ViewModels
-        private MainVM _MainVM { get; set; }
-        #endregion  // ViewModels
-
-        #region Constructor
+        private MainVM _MainVM; 
+        
         public AuthCommand(MainVM mainVM)
         {
             _MainVM = mainVM; 
         }
-        #endregion  // Constructor
 
         public event System.EventHandler CanExecuteChanged; 
 

@@ -48,3 +48,5 @@ C:\Users\User\Desktop\projects\Server\ServerCsharp\ChatCsharp\Server\obj\Debug\n
 C:\Users\User\Desktop\projects\Server\ServerCsharp\ChatCsharp\Server\obj\Debug\netcoreapp3.1\Server.dll
 C:\Users\User\Desktop\projects\Server\ServerCsharp\ChatCsharp\Server\obj\Debug\netcoreapp3.1\Server.pdb
 C:\Users\User\Desktop\projects\Server\ServerCsharp\ChatCsharp\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
+C:\Users\User\Desktop\projects\Server\ServerCsharp\ChatCsharp\Server\bin\Debug\netcoreapp3.1\Network.dll
+C:\Users\User\Desktop\projects\Server\ServerCsharp\ChatCsharp\Server\bin\Debug\netcoreapp3.1\Network.pdb

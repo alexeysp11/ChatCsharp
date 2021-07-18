@@ -1634,7 +1634,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.Sqlite": "3.1.0"
+          "Microsoft.EntityFrameworkCore.Sqlite": "3.1.0",
+          "Network": "1.0.0"
         },
         "compile": {
           "bin/placeholder/Client.dll": {}
@@ -1645,6 +1646,16 @@
         "frameworkReferences": [
           "Microsoft.WindowsDesktop.App.WPF"
         ]
+      },
+      "Network/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "compile": {
+          "bin/placeholder/Network.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Network.dll": {}
+        }
       }
     }
   },
@@ -5658,6 +5669,11 @@
       "type": "project",
       "path": "../Client/Client.csproj",
       "msbuildProject": "../Client/Client.csproj"
+    },
+    "Network/1.0.0": {
+      "type": "project",
+      "path": "../Network/Network.csproj",
+      "msbuildProject": "../Network/Network.csproj"
     }
   },
   "projectFileDependencyGroups": {

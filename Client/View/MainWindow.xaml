@@ -10,15 +10,15 @@
         Title="Chat" 
         MinHeight="450" MinWidth="450" MaxHeight="450" MaxWidth="450">
     <Window.InputBindings>
-        <KeyBinding Command="{Binding MessageCommand}" CommandParameter="Send" Key="Enter" Modifiers="Ctrl" />
+        <KeyBinding Command="{Binding SendMsgCommand}" CommandParameter="Send" Key="Enter" Modifiers="Ctrl" />
     </Window.InputBindings>
 
     <Grid Name="MainGrid">
         <Canvas Name="Welcome" IsEnabled="True" Visibility="Visible">
             <TextBlock Canvas.Top="10" Canvas.Left="100" FontSize="28" Text="Welcome Page" Grid.ColumnSpan="2" Margin="0,0,0,10"/>
             <TextBlock Canvas.Top="60" Canvas.Left="75" FontSize="20" Text="Hello and welcome to the Chat!" />
-            <Button Name="GoToRegisterPageBtn" Canvas.Top="110" Canvas.Left="125" FontSize="20" Content="Register" Height="37.5" Width="150" Command="{Binding GoToAnotherPageCommand}" CommandParameter="Register" />
-            <Button Name="GoToLoginPageBtn" Canvas.Top="160" Canvas.Left="125" FontSize="20" Content="Login" Height="37.5" Width="150" Command="{Binding GoToAnotherPageCommand}" CommandParameter="Login" />
+            <Button Name="GoToRegisterPageBtn" Canvas.Top="110" Canvas.Left="125" FontSize="20" Content="Register" Height="37.5" Width="150" Command="{Binding RedirectCommand}" CommandParameter="Register" />
+            <Button Name="GoToLoginPageBtn" Canvas.Top="160" Canvas.Left="125" FontSize="20" Content="Login" Height="37.5" Width="150" Command="{Binding RedirectCommand}" CommandParameter="Login" />
             <Button Name="ExitBtn" Canvas.Top="210" Canvas.Left="125" FontSize="20" Content="Exit" Height="37.5" Width="150" Command="{Binding ExitCommand}" />
         </Canvas>
 
@@ -58,7 +58,7 @@
 
             <StackPanel Grid.Column="1" Grid.Row="8" Grid.ColumnSpan="2" Orientation="Vertical">
                 <Button FontSize="15" Content="Create the user" Margin="0,10,0,0" Command="{Binding AuthCommand}" CommandParameter="Registration" />
-                <Button FontSize="15" Content="Back" Margin="0,5,0,0" Command="{Binding GoToAnotherPageCommand}" CommandParameter="WelcomePage" />
+                <Button FontSize="15" Content="Back" Margin="0,5,0,0" Command="{Binding RedirectCommand}" CommandParameter="WelcomePage" />
             </StackPanel>
 
             <TextBlock Name="MessageReg" Grid.Column="1" Grid.Row="9" FontSize="18" Grid.ColumnSpan="2" Margin="5"/>
@@ -92,7 +92,7 @@
             
             <StackPanel Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" Orientation="Vertical">
                 <Button FontSize="15" Content="Log In" Margin="0,10,0,0" Command="{Binding AuthCommand}" CommandParameter="Login" />
-                <Button FontSize="15" Content="Back" Margin="0,5,0,0" Command="{Binding GoToAnotherPageCommand}" CommandParameter="WelcomePage" />
+                <Button FontSize="15" Content="Back" Margin="0,5,0,0" Command="{Binding RedirectCommand}" CommandParameter="WelcomePage" />
             </StackPanel>
                         
             <TextBlock Name="MessageLogin" Grid.Column="1" Grid.Row="5" FontSize="18" Grid.ColumnSpan="2" Margin="5"/>
@@ -119,14 +119,14 @@
             <RichTextBox Grid.Column="1" Grid.Row="2" Height="200" Width="380" Grid.ColumnSpan="2" IsReadOnly="True" VerticalScrollBarVisibility="Auto">
                 <FlowDocument PageHeight="Auto" PageWidth="380">
                     <Paragraph>
-                        <Run Text="{Binding MessagesVM.MessagesInChat}" />
+                        <Run Text="{Binding DispMsgVM.MessagesInChat}" />
                     </Paragraph>
                 </FlowDocument>
             </RichTextBox>
 
             <StackPanel Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2">
                 <TextBlock Text="Message:" FontSize="15" />
-                <TextBox Name="MessageToSendTextBox" Height="25" Width="380" Text="{Binding Path=MessagesVM.MessageToSend, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="70" />
+                <TextBox Name="MessageToSendTextBox" Height="25" Width="380" Text="{Binding Path=DispMsgVM.MessageToSend, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="70" />
             </StackPanel>
             
             <StackPanel Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" Orientation="Horizontal">
@@ -135,7 +135,7 @@
 
             <StackPanel Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2" Orientation="Horizontal">
                 <TextBlock FontSize="14" Text="Press Ctrl+Enter to send message" />
-                <TextBlock FontSize="14" Text="{Binding MessagesVM.CharsAvailable }" Margin="25,0,0,0" />
+                <TextBlock FontSize="14" Text="{Binding DispMsgVM.CharsAvailable }" Margin="25,0,0,0" />
             </StackPanel>
         </Grid>
     </Grid>

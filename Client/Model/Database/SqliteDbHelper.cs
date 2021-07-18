@@ -5,10 +5,12 @@ using Chat.Client.Xml;
 namespace Chat.Client.Database
 {
     /// <summary>
-    /// Class that allows to use SQLite database 
+    /// Allows to use SQLite database 
     /// </summary>
     public class SqliteDbHelper
     {
+        public static SqliteDbHelper Instance { get; private set; } 
+
         #region Properties
         /// <summary>
         /// Request for creating the User table 
@@ -18,14 +20,8 @@ namespace Chat.Client.Database
             Name TEXT, 
             Email TEXT, 
             Password TEXT)"; 
-        /// <summary>
-        /// Absolute path to the database (used for storing the path)
-        /// </summary>
+
         private string absolutePathToDb;
-        /// <summary>
-        /// Absolute path to the database (used for setting and getting the path)
-        /// </summary>
-        /// <value>Sets and gets value of absolutePathToDb</value>
         public string AbsolutePathToDb
         {
             get { return absolutePathToDb; }
@@ -33,29 +29,16 @@ namespace Chat.Client.Database
         }
         #endregion  // Properties
 
-        #region Members
-        /// <summary>
-        /// Instance of SqliteDbHelper (to use Singleton pattern)
-        /// </summary>
-        public static SqliteDbHelper Instance { get; private set; } 
-        #endregion  // Members
-
         #region Constructors
-        /// <summary>
-        /// Static constructor of SqliteDbHelper (to use Singleton pattern)
-        /// </summary>
         static SqliteDbHelper()
         {
             Instance = new SqliteDbHelper(); 
         }
 
-        /// <summary>
-        /// Private constructor of SqliteDbHelper (to use Singleton pattern)
-        /// </summary>
         private SqliteDbHelper() { }
         #endregion  // Constructors
 
-        #region Path
+        #region Getting path
         /// <summary>
         /// Method that is used for getting absolute path of the database from XML file
         /// </summary>
@@ -72,12 +55,9 @@ namespace Chat.Client.Database
                 throw e;
             }
         }
-        #endregion  // Path
-        
+        #endregion  // Getting path
+
         #region Methods for User table
-        /// <summary>
-        /// Allows to create User table 
-        /// </summary>
         public void CreateUserTable()
         {
             var connectionStringBuilder = new SqliteConnectionStringBuilder(); 
@@ -103,10 +83,6 @@ namespace Chat.Client.Database
             }
         }
 
-        /// <summary>
-        /// Allows to insert data about user into database 
-        /// </summary>
-        /// <param name="user">Instance of UserModel that consists all fields of user</param>
         public void InsertDataIntoUserTable(UserModel user)
         {
             if (user == null)

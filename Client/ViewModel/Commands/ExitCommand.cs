@@ -4,16 +4,12 @@ namespace Chat.Client.Commands
 {
     public class ExitCommand : System.Windows.Input.ICommand
     {
-        #region ViewModels
-        private MainVM _MainVM { get; set; }
-        #endregion  // ViewModels
-
-        #region Constructor
+        private MainVM _MainVM; 
+        
         public ExitCommand(MainVM mainVM)
         {
             _MainVM = mainVM; 
         }
-        #endregion  // Constructor
 
         public event System.EventHandler CanExecuteChanged; 
 
@@ -24,7 +20,7 @@ namespace Chat.Client.Commands
 
         public void Execute(object parameter)
         {
-            this._MainVM.Exit(); 
+            this._MainVM.CloseApp(); 
         }
     }
 }

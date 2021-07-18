@@ -405,6 +405,16 @@
         "runtime": {
           "lib/netcoreapp3.0/System.Text.Json.dll": {}
         }
+      },
+      "Network/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "compile": {
+          "bin/placeholder/Network.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Network.dll": {}
+        }
       }
     }
   },
@@ -1023,11 +1033,17 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
+    },
+    "Network/1.0.0": {
+      "type": "project",
+      "path": "../Network/Network.csproj",
+      "msbuildProject": "../Network/Network.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
-      "Microsoft.EntityFrameworkCore.Sqlite >= 3.1.0"
+      "Microsoft.EntityFrameworkCore.Sqlite >= 3.1.0",
+      "Network >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -1055,7 +1071,11 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\User\\Desktop\\projects\\Server\\ServerCsharp\\ChatCsharp\\Network\\Network.csproj": {
+              "projectPath": "C:\\Users\\User\\Desktop\\projects\\Server\\ServerCsharp\\ChatCsharp\\Network\\Network.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
