@@ -296,7 +296,8 @@ namespace Chat.Client.ViewModel
         {
             try
             {
-                string msg = $"{this.ActiveUser.Name}: {this.DispMsgVM.MessageToSend}"; 
+                string time = System.DateTime.Now.ToString(@"HH:mm"); 
+                string msg = $"{time} {this.ActiveUser.Name}: {this.DispMsgVM.MessageToSend}"; 
                 this.NetworkClient.SendMessage(msg, true); 
                 this.DispMsgVM.MessagesInChat += $"{msg}\n"; 
                 this.DispMsgVM.MessageToSend = System.String.Empty; 
@@ -322,7 +323,7 @@ namespace Chat.Client.ViewModel
             string msg = this.NetworkClient.GetMessages(); 
             if (msg != string.Empty)
             {
-                this.DispMsgVM.MessagesInChat += msg; 
+                this.DispMsgVM.MessagesInChat += $"{msg}\n"; 
             }
         }
         #endregion  // Communication methods 

@@ -179,13 +179,13 @@ namespace Chat.Network.Server
             // Add new message to the buffer. 
             this.MsgId++; 
             this.ShiftMsgBuffer();
-            this.MsgBuf[0] = new Message(ReceivedBytes[0], this.MsgId, System.BitConverter.ToUInt16(ReceivedBytes, 2), textBytes);
+            this.MsgBuf[0] = new Message(ReceivedBytes[0], this.MsgId, textBytes);
 
             // Create response array. 
             byte header = (byte)(Header.PURPOSE_CTC | Header.ERROR_NO); 
             this.ResponseBytes = new byte[3] { ReceivedBytes[0], header, MsgBuf[0].MsgId }; 
             
-            System.Console.WriteLine($"{this.MsgBuf[0].MessageString}\n");
+            System.Console.WriteLine($"{this.MsgBuf[0].MessageString}");
         }
 
         private void ShiftMsgBuffer()
