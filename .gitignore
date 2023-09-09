@@ -2,6 +2,9 @@
 */.vs 
 .vscode 
 
+bin 
+obj
+
 # Documentation 
 Docs/ProcessDocs 
 LICENSE
