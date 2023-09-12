@@ -227,9 +227,7 @@ namespace Chat.Network.Client
                 try
                 {
                     if (this._NetworkStream != null)
-                    {
                         this._NetworkStream.Close();
-                    }
                     this.Client.Close();
                 }
                 catch (System.Exception e)

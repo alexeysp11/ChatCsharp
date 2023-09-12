@@ -56,4 +56,4 @@ How to calculate the size of a database?
 - Last seen service.
 - Asset service.
 
-![system_overview](img/system_overview.png)
+![SystemOverview](img/SystemOverview.png)

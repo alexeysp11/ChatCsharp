@@ -240,9 +240,9 @@ namespace Chat.Client.ViewModel
 
         private void RegisterUserInDb()
         {
-            using ( UserModel user = new UserModel(ActiveWindow.UsernameReg.Text, ActiveWindow.EmailReg.Text, ActiveWindow.PasswordBoxReg.Password) )
+            try
             {
-                try
+                using ( UserModel user = new UserModel(ActiveWindow.UsernameReg.Text, ActiveWindow.EmailReg.Text, ActiveWindow.PasswordBoxReg.Password) )
                 {
                     if (SqliteDbHelper.Instance.IsAuthenticated(user))
                     {
@@ -265,10 +265,10 @@ namespace Chat.Client.ViewModel
                         }
                     }
                 }
-                catch (System.Exception e)
-                {
-                    System.Windows.MessageBox.Show($"Exception while getting user from database:\n{e}", "Database exception"); 
-                }
+            }
+            catch (System.Exception e)
+            {
+                System.Windows.MessageBox.Show($"Exception while getting user from database:\n{e}", "Database exception"); 
             }
         }
         #endregion  // Submit methods
