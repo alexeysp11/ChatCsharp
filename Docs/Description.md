@@ -50,8 +50,8 @@ How to calculate the size of a database?
 
 ## Services 
 
-- Messaging service.
-- Group service.
+- [Messaging service](Services/MessagingService.md).
+- [Group service](Services/MessagingService.md).
 - Session service.
 - Last seen service.
 - Asset service.
