@@ -27,24 +27,24 @@ Service for processing messages
 
 - Sending messages: 
     - Forward pass:
-        - message_uid (only for receiver), 
-        - sender_uid, 
-        - receiver_uid, 
-        - text_content, 
-        - send_timestamp,
-        - receiver_type_uid (personal chat, group chat).
+        - `message_uid: string` (only for receiver), 
+        - `sender_uid: string`, 
+        - `receiver_uid: string`, 
+        - `text_content: string`, 
+        - `send_timestamp: DateTime`,
+        - `receiver_type_uid: string` (personal chat, group chat).
     - Backward pass (only for sender): 
-        - message_uid,
-        - status (pending, sent).
+        - `message_uid: string`,
+        - `status_uid: string` (pending, sent).
 - Getting messages:
     - Request: 
-        - to_use_timestamp (if needed, timestamp will be calculated on the server).
+        - `to_use_timestamp: DateTime` (if needed, timestamp will be calculated on the server).
     - Response: 
         - collection of messages (see forward pass).
 - Changing message status: 
-    - message_uid,
-    - user_uid,
-    - status (read, deleted_for_sender, deleted_for_everybody).
+    - `message_uid: string`,
+    - `user_uid: string`,
+    - `status_uid: string` (read, deleted_for_sender, deleted_for_everybody).
 
 ## Tables in DB
 
@@ -121,3 +121,18 @@ Service for processing messages
     - possible values: 
         - notifications on,
         - notifications off.
+- e2ee_algorithm:
+    - coulumns: 
+        - `e2ee_algorithm_id: integer not null`, 
+        - `uid: varchar not null`,
+        - `name: varchar not null`.
+    - possible values: 
+        - AES,
+        - DES,
+        - Tripple DES, 
+        - RSA, 
+        - Blowfish, 
+        - Twofish, 
+        - RC4,
+        - TEA, 
+        - xxTEA.

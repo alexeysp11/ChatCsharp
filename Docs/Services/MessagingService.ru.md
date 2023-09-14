@@ -27,23 +27,24 @@
 
 - Отправка сообщения: 
     - Прямой ход:
-        - message_uid (только для получателя), 
-        - sender_uid, 
-        - receiver_uid, 
-        - text_content, 
-        - send_timestamp.
+        - `message_uid: string` (only for receiver), 
+        - `sender_uid: string`, 
+        - `receiver_uid: string`, 
+        - `text_content: string`, 
+        - `send_timestamp: DateTime`,
+        - `receiver_type_uid: string` (personal chat, group chat).
     - Обратный ход (только для отправителя): 
-        - message_uid,
-        - status (pending, sent).
+        - `message_uid: string`,
+        - `status_uid: string` (pending, sent).
 - Получение сообщений:
     - Запрос: 
-        - to_use_timestamp (при необходимости актуальный timestamp будет вычислен на сервере).
+        - `to_use_timestamp: DateTime` (при необходимости актуальный timestamp будет вычислен на сервере).
     - Ответ: 
         - массив сообщений (см. прямой ход).
 - Изменение статуса сообщения: 
-    - message_uid,
-    - user_uid,
-    - status (read, deleted_for_sender, deleted_for_everybody).
+    - `message_uid: string`,
+    - `user_uid: string`,
+    - `status_uid: string` (read, deleted_for_sender, deleted_for_everybody).
 
 ## Таблицы в БД
 
@@ -121,3 +122,18 @@
     - possible values: 
         - notifications on,
         - notifications off.
+- e2ee_algorithm:
+    - coulumns: 
+        - `e2ee_algorithm_id: integer not null`, 
+        - `uid: varchar not null`,
+        - `name: varchar not null`.
+    - possible values: 
+        - AES,
+        - DES,
+        - Tripple DES, 
+        - RSA, 
+        - Blowfish, 
+        - Twofish, 
+        - RC4,
+        - TEA, 
+        - xxTEA.
