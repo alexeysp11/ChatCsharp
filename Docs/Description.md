@@ -1,5 +1,7 @@
 # Description
 
+Read this in other languages: [English](Description.md), [Russian/Русский](Description.ru.md).
+
 ## Requirements
 
 ### Functional requirements 
@@ -36,17 +38,6 @@ How to calculate the size of a database?
 - Total messages per day: 1.5B.
 - Each message: 50 kB.
 - Total storage: `1.5B * 50kB = 75 pB`.
-
-## API endpoints 
-
-- Send messages: 
-    - sender user id,
-    - receiver user id, 
-    - text.
-- Get messages: 
-    - user id, 
-    - screen size,
-    - before timestamp.
 
 ## Services 
 

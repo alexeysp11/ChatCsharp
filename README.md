@@ -6,6 +6,8 @@ This project consists of two projects: *client side app* and *server side app*.
 *Client side application* is written using **WPF** and **MVVM** pattern. 
 *Server side application* is written as a **console app**. 
 
+The project description is presented at [this link](Docs/Description.md).
+
 ## How to use 
 
 ### Prerequisites
