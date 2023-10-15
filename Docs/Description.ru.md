@@ -44,7 +44,9 @@
 - [Messaging service](Services/MessagingService.ru.md).
 - [Group service](Services/MessagingService.ru.md).
 - [Authentication service](Services/AuthenticationService.ru.md).
-- Last seen service.
-- Asset service.
+- [Last seen service](Services/LastSeenService.ru.md).
+- [Asset service](Services/AssetService.ru.md).
+
+Диаграмма коммуникации между сервисами:
 
 ![SystemOverview](img/SystemOverview.png)

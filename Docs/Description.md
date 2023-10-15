@@ -44,7 +44,9 @@ How to calculate the size of a database?
 - [Messaging service](Services/MessagingService.md).
 - [Group service](Services/MessagingService.md).
 - [Authentication service](Services/AuthenticationService.md).
-- Last seen service.
-- Asset service.
+- [Last seen service](Services/LastSeenService.md).
+- [Asset service](Services/AssetService.md).
+
+Service communication diagram:
 
 ![SystemOverview](img/SystemOverview.png)
