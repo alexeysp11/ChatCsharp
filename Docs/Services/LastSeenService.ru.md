@@ -1,1 +1,3 @@
-# Last seen service
+# LastSeenService
+
+Last seen service

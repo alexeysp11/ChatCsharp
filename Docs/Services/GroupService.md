@@ -1,4 +1,4 @@
-# Group service
+# GroupService
 
 Read this in other languages: [English](GroupService.md), [Russian/Русский](GroupService.ru.md).
 

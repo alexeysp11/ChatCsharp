@@ -1,3 +1,3 @@
 @echo off 
 
-dotnet run --project ./Client/Client.csproj 
+dotnet run --project ./Client/Chat.Client.csproj 

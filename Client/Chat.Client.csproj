@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Network\Network.csproj" />
+    <ProjectReference Include="..\Network\Chat.Network.csproj" />
   </ItemGroup>
 
 </Project>

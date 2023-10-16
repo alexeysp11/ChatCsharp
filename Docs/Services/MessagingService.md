@@ -1,4 +1,4 @@
-# Messaging service
+# MessagingService
 
 Read this in other languages: [English](MessagingService.md), [Russian/Русский](MessagingService.ru.md).
 

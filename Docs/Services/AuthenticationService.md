@@ -1,4 +1,4 @@
-# Authentication service
+# AuthenticationService
 
 Read this in other languages: [English](AuthenticationService.md), [Russian/Русский](AuthenticationService.ru.md).
 

@@ -1,4 +1,4 @@
-# Authentication service
+# AuthenticationService
 
 Доступно на других языках: [English/Английский](AuthenticationService.md), [Russian/Русский](AuthenticationService.ru.md).
 

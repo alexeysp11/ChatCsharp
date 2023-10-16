@@ -1,4 +1,4 @@
-# Group service
+# GroupService
 
 Доступно на других языках: [English/Английский](MessagingService.md), [Russian/Русский](MessagingService.ru.md).
 
