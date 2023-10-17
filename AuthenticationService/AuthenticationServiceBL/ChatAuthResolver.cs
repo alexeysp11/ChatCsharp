@@ -19,10 +19,11 @@ public class ChatAuthResolver
     /// </summary>
     public ChatAuthResolver()
     {
+        var configHelper = new ConfigHelper();
         var settings = new AuthResolverSettings
         {
-            CheckUCConfig = ConfigHelper.GetUCConfigs(),
-            AuthDBSettings = ConfigHelper.GetAuthDBSettings(usersTableName: "chat_users")
+            CheckUCConfig = configHelper.GetUCConfigs(),
+            AuthDBSettings = configHelper.GetAuthDBSettings(usersTableName: "chat_users")
         };
         AuthResolver = new AuthResolverDB(settings);
     }
