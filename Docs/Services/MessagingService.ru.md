@@ -26,25 +26,14 @@
 ## Описание сетевого взаимодействия 
 
 - Отправка сообщения: 
-    - Прямой ход:
-        - `message_uid: string` (only for receiver), 
-        - `sender_uid: string`, 
-        - `receiver_uid: string`, 
-        - `text_content: string`, 
-        - `send_timestamp: DateTime`,
-        - `receiver_type_uid: string` (personal chat, group chat).
-    - Обратный ход (только для отправителя): 
-        - `message_uid: string`,
-        - `status_uid: string` (pending, sent).
+    - Запрос: [MessageWF](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/MessageWF.md).
+    - Ответ: [SendMsgResponseDTO](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/DTOs/SendMsgResponseDTO.md).
 - Получение сообщений:
-    - Запрос: 
-        - `to_use_timestamp: DateTime` (при необходимости актуальный timestamp будет вычислен на сервере).
-    - Ответ: 
-        - массив сообщений (см. прямой ход).
+    - Запрос: [GetMsgRequestDTO](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/DTOs/GetMsgRequestDTO.md).
+    - Ответ: [ICollection](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.icollection-1)<[MessageWF](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/MessageWF.md)>.
 - Изменение статуса сообщения: 
-    - `message_uid: string`,
-    - `user_uid: string`,
-    - `status_uid: string` (read, deleted_for_sender, deleted_for_everybody).
+    - Запрос: [SetMsgStatusRequestDTO](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/DTOs/SetMsgStatusRequestDTO.md).
+    - Ответ: [SetMsgStatusResponseDTO](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/DTOs/SetMsgStatusResponseDTO.md).
 
 ## Таблицы в БД
 

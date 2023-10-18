@@ -26,25 +26,14 @@ Service for processing messages
 ## Network messages format
 
 - Sending messages: 
-    - Forward pass:
-        - `message_uid: string` (only for receiver), 
-        - `sender_uid: string`, 
-        - `receiver_uid: string`, 
-        - `text_content: string`, 
-        - `send_timestamp: DateTime`,
-        - `receiver_type_uid: string` (personal chat, group chat).
-    - Backward pass (only for sender): 
-        - `message_uid: string`,
-        - `status_uid: string` (pending, sent).
+    - Request: [MessageWF](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/MessageWF.md).
+    - Response: [SendMsgResponseDTO](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/DTOs/SendMsgResponseDTO.md).
 - Getting messages:
-    - Request: 
-        - `to_use_timestamp: DateTime` (if needed, timestamp will be calculated on the server).
-    - Response: 
-        - collection of messages (see forward pass).
+    - Request: [GetMsgRequestDTO](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/DTOs/GetMsgRequestDTO.md).
+    - Response: [ICollection](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.icollection-1)<[MessageWF](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/MessageWF.md)>.
 - Changing message status: 
-    - `message_uid: string`,
-    - `user_uid: string`,
-    - `status_uid: string` (read, deleted_for_sender, deleted_for_everybody).
+    - Request: [SetMsgStatusRequestDTO](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/DTOs/SetMsgStatusRequestDTO.md).
+    - Response: [SetMsgStatusResponseDTO](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/DTOs/SetMsgStatusResponseDTO.md).
 
 ## Tables in DB
 
