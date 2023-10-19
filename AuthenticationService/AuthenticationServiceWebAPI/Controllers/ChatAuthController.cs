@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WokflowLib.Authentication.AuthBL;
 using WokflowLib.Authentication.Models.NetworkParameters;
-using Chat.AuthenticationService.AuthenticationServiceBL;
+using Chat.Core.Services;
 
 namespace AuthenticationServiceWebAPI.Controllers;
 
@@ -19,12 +19,12 @@ public class ChatAuthController : ControllerBase
     [HttpGet(Name = "AddUser")]
     public UserCreationResult AddUser(UserCredentials request)
     {
-        return new ChatAuthResolver().AddUser(request);
+        return new ChatAuthService().AddUser(request);
     }
 
     [HttpGet(Name = "VerifyUserCredentials")]
     public VUCResponse VerifyUserCredentials(UserCredentials request)
     {
-        return new ChatAuthResolver().VerifyUserCredentials(request);
+        return new ChatAuthService().VerifyUserCredentials(request);
     }
 }

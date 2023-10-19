@@ -25,15 +25,7 @@
 
 ## Описание сетевого взаимодействия 
 
-- Отправка сообщения: 
-    - Запрос: [MessageWF](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/MessageWF.md).
-    - Ответ: [SendMsgResponseDTO](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/DTOs/SendMsgResponseDTO.md).
-- Получение сообщений:
-    - Запрос: [GetMsgRequestDTO](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/DTOs/GetMsgRequestDTO.md).
-    - Ответ: [GetMsgResponseDTO](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/DTOs/GetMsgResponseDTO.md).
-- Изменение статуса сообщения: 
-    - Запрос: [SetMsgStatusRequestDTO](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/DTOs/SetMsgStatusRequestDTO.md).
-    - Ответ: [SetMsgStatusResponseDTO](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/DTOs/SetMsgStatusResponseDTO.md).
+За обработку сетевых запросов ответственен класс [ChatMessagingService](../Core/Services/ChatMessagingService.md).
 
 ## Таблицы в БД
 

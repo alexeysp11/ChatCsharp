@@ -11,6 +11,7 @@ LICENSE
 
 # Unfinished modules 
 AuthenticationServiceGrpc
+MessagingServiceGrpc
 
 # Testing modules 
 

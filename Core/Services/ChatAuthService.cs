@@ -2,12 +2,12 @@
 using WokflowLib.Authentication.Models.ConfigParameters;
 using WokflowLib.Authentication.Models.NetworkParameters;
 
-namespace Chat.AuthenticationService.AuthenticationServiceBL;
+namespace Chat.Core.Services;
 
 /// <summary>
 /// Chat authentication resolver.
 /// </summary>
-public class ChatAuthResolver
+public class ChatAuthService
 {
     /// <summary>
     /// Authentication resolver from WokflowLib.
@@ -17,7 +17,7 @@ public class ChatAuthResolver
     /// <summary>
     /// Default constructor.
     /// </summary>
-    public ChatAuthResolver()
+    public ChatAuthService()
     {
         var configHelper = new ConfigHelper();
         var settings = new AuthResolverSettings

@@ -25,15 +25,7 @@ Service for processing messages
 
 ## Network messages format
 
-- Sending messages: 
-    - Request: [MessageWF](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/MessageWF.md).
-    - Response: [SendMsgResponseDTO](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/DTOs/SendMsgResponseDTO.md).
-- Getting messages:
-    - Request: [GetMsgRequestDTO](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/DTOs/GetMsgRequestDTO.md).
-    - Response: [GetMsgResponseDTO](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/DTOs/GetMsgResponseDTO.md).
-- Changing message status: 
-    - Request: [SetMsgStatusRequestDTO](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/DTOs/SetMsgStatusRequestDTO.md).
-    - Response: [SetMsgStatusResponseDTO](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/DTOs/SetMsgStatusResponseDTO.md).
+The [ChatMessagingService](../Core/Services/ChatMessagingService.md) class is responsible for processing network requests. 
 
 ## Tables in DB
 

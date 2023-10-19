@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../../../workflow-auth/authbl/WokflowLib.Authentication.AuthBL.csproj" />
-    <ProjectReference Include="../AuthenticationServiceBL/Chat.AuthenticationService.AuthenticationServiceBL.csproj" />
+    <ProjectReference Include="../../Core/Chat.Core.csproj" />
   </ItemGroup>
 
 </Project>
