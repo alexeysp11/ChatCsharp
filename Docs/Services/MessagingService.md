@@ -11,7 +11,6 @@ Service for processing messages.
 - [Select dialog](Processes/SearchDialog.md) to start conversation.
 - [Loading all messages](Processes/StartConversation.md) related to the dialog.
 - [Processes messages](Processes/ProcessNewMessages.md) from users.
-- Processes a client request to receive all messages (for all time or after a certain time).
 - Client request for [change message status](Processes/ChangeMessageStatus.md).
 - Uses queues in RabbitMQ to communicate with the **Last seen service** about the status of users (read and write).
 
