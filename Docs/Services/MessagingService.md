@@ -29,12 +29,12 @@ The [ChatMessagingService](../Core/Services/ChatMessagingService.md) class is re
 
 ## Tables in DB
 
-- chat_user: [UserAccount](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/InformationSystem/UserAccount.md)
-- chat_message: [MessageWF](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/MessageWF.md)
-- chat_cms_request (change message status): [SetMsgStatusRequestDTO](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/DTOs/SetMsgStatusRequestDTO.md)
-- chat_message_status: [MessageStatus](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/MessageStatus.md)
-- chat_conversation: [Chatroom](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/Chatroom.md) and [ChannelUser](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/ChannelUser.md)
-- chat_entity_type: [ChatroomType](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/ChatroomType.md)
-- chat_entity_status: [UserStatus](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/InformationSystem/UserStatus.md)
-- chat_notification_policies: [NotificationPolicies](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/Customers/NotificationPolicies.md)
-- chat_e2ee_algorithm_type: [E2EEAlgorithmType](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Cryptography/E2EEAlgorithmType.md)
+- [chat_user](../DbTables/chat_user.md)
+- [chat_message](../DbTables/chat_message.md)
+- [chat_cms_request](../DbTables/chat_cms_request.md) (change message status)
+- [chat_message_status](../DbTables/chat_message_status.md)
+- [chat_conversation](../DbTables/chat_conversation.md)
+- [chat_entity_type](../DbTables/chat_entity_type.md)
+- [chat_entity_status](../DbTables/chat_entity_status.md)
+- [chat_notification_policies](../DbTables/chat_notification_policies.md)
+- [chat_e2ee_algorithm_type](../DbTables/chat_e2ee_algorithm_type.md)
