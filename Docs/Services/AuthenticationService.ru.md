@@ -14,13 +14,16 @@
 - На клиентском приложении хранится только таблица "проверка кода".
 - Любой новый вход в приложение обновляет дату окончания действия сессионного токена.
 
-В качестве сервиса аутентификации используется библиотека [workflow-auth](https://github.com/alexeysp11/workflow-auth) (в частности, класс [AuthResolverDB](https://github.com/alexeysp11/workflow-auth/blob/main/docs/authbl/AuthResolverDB.md)).
+В качестве сервиса аутентификации используется *внешний сервис*/*библиотека* [workflow-auth](https://github.com/alexeysp11/workflow-auth).
+Схема коммуникации между сервисами представлена на рисунке ниже:
 
 ![AuthService](../img/AuthService.png)
 
-Используемые методы класса [AuthResolverDB](https://github.com/alexeysp11/workflow-auth/blob/main/docs/authbl/AuthResolverDB.md): 
-- `AddUser()`;
-- `VerifyUserCredentials()`.
+В данном сервисе аутентификации за обработку сетевых запросов отвечает класс [ChatAuthService](../Core/Services/ChatAuthService.md).
+
+## Таблицы в БД
+
+- [chat_users](../DbTables/chat_users.md)
 
 ### Джобы
 

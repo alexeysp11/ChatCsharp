@@ -29,7 +29,7 @@ public class ChatAuthService
     }
 
     /// <summary>
-    /// 
+    /// Method for adding the specified user into the database. 
     /// </summary>
     public UserCreationResult AddUser(UserCredentials request)
     {
@@ -37,7 +37,7 @@ public class ChatAuthService
     }
 
     /// <summary>
-    /// 
+    /// Method for verifying the user credentials.
     /// </summary>
     public VUCResponse VerifyUserCredentials(UserCredentials request)
     {

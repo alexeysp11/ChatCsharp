@@ -2,5 +2,6 @@
 
 ## Classes 
 
+- [ChatAssetService](ChatAssetService.md)
 - [ChatAuthService](ChatAuthService.md)
 - [ChatMessagingService](ChatMessagingService.md)
