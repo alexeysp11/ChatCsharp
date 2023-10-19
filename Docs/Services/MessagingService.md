@@ -30,98 +30,19 @@ Service for processing messages
     - Response: [SendMsgResponseDTO](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/DTOs/SendMsgResponseDTO.md).
 - Getting messages:
     - Request: [GetMsgRequestDTO](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/DTOs/GetMsgRequestDTO.md).
-    - Response: [ICollection](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.icollection-1)<[MessageWF](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/MessageWF.md)>.
+    - Response: [GetMsgResponseDTO](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/DTOs/GetMsgResponseDTO.md).
 - Changing message status: 
     - Request: [SetMsgStatusRequestDTO](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/DTOs/SetMsgStatusRequestDTO.md).
     - Response: [SetMsgStatusResponseDTO](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/DTOs/SetMsgStatusResponseDTO.md).
 
 ## Tables in DB
 
-- user: 
-    - `user_id: integer not null`, 
-    - `user_uid: varchar not null`, 
-    - `username: varchar not null`, 
-    - `email: varchar`, 
-    - `phone: varchar not null`, 
-    - `image: blob`, 
-    - `chat_entity_status_id: integer not null` -> chat_entity_status, 
-    - `last_seen_timestamp: timestamp not null`.
-- message: 
-    - `message_id: integer not null`, 
-    - `message_uid: varchar not null`,
-    - `sender_id: integer not null` -> user, 
-    - `receiver_id: integer` -> user, 
-    - `conversation_id: integer` -> conversation,
-    - `group_id: integer` -> group,
-    - `chat_entity_type_id: integer not null` -> chat_entity_type,
-    - `text_content: text`, 
-    - `send_timestamp: timestamp not null`, 
-    - `message_status_id: integer not null` -> message_status.
-- change_status_request (for changing status of a message):
-    - `message_id: integer not null` -> message, 
-    - `user_id: integer not null` -> user,
-    - `message_status_id: integer not null` -> message_status,
-    - `request_timestamp: timestamp not null`.
-- message_status: 
-    - columns: 
-        - `message_status_id: integer not null`,
-        - `uid: varchar not null`,
-        - `name: varchar not null`.
-    - possible values: 
-        - pending, 
-        - sent, 
-        - read, 
-        - deleted_for_sender,
-        - deleted_for_everybody.
-- conversation: 
-    - `conversation_id: integer not null`,
-    - `uid: varchar not null`,
-    - `user_one_id: integer not null` -> user,
-    - `user_two_id: integer not null` -> user,
-    - `user_one_np_id: integer not null` -> notification_policies,
-    - `user_two_np_id: integer not null` -> notification_policies, 
-    - `user_one_status_id: integer` -> chat_entity_status (shows if the **user one** was blocked by **user two**), 
-    - `user_two_status_id: integer` -> chat_entity_status (shows if the **user two** was blocked by **user one**).
-- chat_entity_type:
-    - columns: 
-        - `chat_entity_type_id: integer not null`,
-        - `uid: varchar not null`,
-        - `name: varchar not null`.
-    - possible values: 
-        - user,
-        - personal chat (conversation), 
-        - group chat,
-        - bot.
-- chat_entity_status: 
-    - coulumns: 
-        - `chat_entity_status_id: integer not null`, 
-        - `uid: varchar not null`,
-        - `name: varchar not null`.
-    - possible values:
-        - online, 
-        - offline, 
-        - blocked, 
-        - deleted.
-- notification_policies:
-    - coulumns: 
-        - `notification_policies_id: integer not null`, 
-        - `uid: varchar not null`,
-        - `name: varchar not null`.
-    - possible values: 
-        - notifications on,
-        - notifications off.
-- e2ee_algorithm:
-    - coulumns: 
-        - `e2ee_algorithm_id: integer not null`, 
-        - `uid: varchar not null`,
-        - `name: varchar not null`.
-    - possible values: 
-        - AES,
-        - DES,
-        - Tripple DES, 
-        - RSA, 
-        - Blowfish, 
-        - Twofish, 
-        - RC4,
-        - TEA, 
-        - xxTEA.
+- chat_user: [UserAccount](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/InformationSystem/UserAccount.md)
+- chat_message: [MessageWF](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/MessageWF.md)
+- chat_cms_request (change message status): [SetMsgStatusRequestDTO](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/DTOs/SetMsgStatusRequestDTO.md)
+- chat_message_status: [MessageStatus](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/MessageStatus.md)
+- chat_conversation: [Chatroom](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/Chatroom.md) and [ChannelUser](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/ChannelUser.md)
+- chat_entity_type: [ChatroomType](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/SocialCommunication/ChatroomType.md)
+- chat_entity_status: [UserStatus](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/InformationSystem/UserStatus.md)
+- chat_notification_policies: [NotificationPolicies](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Business/Customers/NotificationPolicies.md)
+- chat_e2ee_algorithm_type: [E2EEAlgorithmType](https://github.com/alexeysp11/workflow-lib/blob/main/docs/Models/Cryptography/E2EEAlgorithmType.md)
