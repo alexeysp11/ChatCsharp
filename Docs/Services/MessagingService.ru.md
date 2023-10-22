@@ -8,10 +8,10 @@
 
 ## Описание 
 
-- [Выбор собеседника](Processes/SearchDialog.ru.md) для начала общения.
-- [Загрузка переписки](Processes/StartConversation.ru.md) с собеседником.
-- [Обрабатывает сообщения](Processes/ProcessNewMessages.ru.md) от пользователей.
-- Клиентский запрос на [изменение статуса сообщения](Processes/ChangeMessageStatus.ru.md).
+- [Выбор собеседника](Processes/Messaging/SearchDialog.ru.md) для начала общения.
+- [Загрузка переписки](Processes/Messaging/StartConversation.ru.md) с собеседником.
+- [Обрабатывает сообщения](Processes/Messaging/ProcessNewMessages.ru.md) от пользователей.
+- Клиентский запрос на [изменение статуса сообщения](Processes/Messaging/ChangeMessageStatus.ru.md).
 - Использует очереди в RabbitMQ для коммуникации с сервисом **Last seen service** по поводу статуса пользователей (чтение и запись). 
 
 ## Описание сетевого взаимодействия 

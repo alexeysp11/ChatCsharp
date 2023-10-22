@@ -21,6 +21,7 @@
 - Внешние сервисы (библиотеки): 
     - [workflow-auth](https://github.com/alexeysp11/workflow-auth)
     - [workflow-lib](https://github.com/alexeysp11/workflow-lib)
+- [Swagger](https://swagger.io/tools/swagger-ui)
 
 ## Как использовать
 
