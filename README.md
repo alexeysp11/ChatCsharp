@@ -2,13 +2,29 @@
 
 [English](README.md) | [Русский](README.ru.md)
 
-A simple Client-Server chat written in `C#`.
+The application is a simple client-server chat written in `C#`. 
 
-This project consists of two projects: *client side app* and *server side app*. 
-*Client side application* is written using **WPF** and **MVVM** pattern. 
-*Server side application* is written as a **console app**. 
+It consists of two projects: a client-side app written using **WPF** and **MVVM** pattern, and a server-side app written as a console app.
+
+## Description 
 
 The project description is presented at [this link](Docs/Description.md).
+
+### Goals 
+
+The goals of the project are to create a basic chat application that allows users to communicate with each other through a server.
+
+### Scope
+
+The scope of the project is limited to the development of the client-side and server-side applications required for the chat functionality.
+
+### Who can use this app
+
+The application can be used by anyone who needs a basic chat functionality, such as small businesses or individuals who need to communicate with others remotely.
+
+### Main functionalities
+
+The main functionalities the chat should have include sending and receiving messages, displaying online users, and handling multiple connections to the server.
 
 ## Techonologies 
 
