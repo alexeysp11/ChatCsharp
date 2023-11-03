@@ -1,6 +1,6 @@
 # GroupService
 
-Доступно на других языках: [English/Английский](MessagingService.md), [Russian/Русский](MessagingService.ru.md).
+[English](MessagingService.md) | [Русский](MessagingService.ru.md)
 
 Сервис обработки сообщений в группах 
 

@@ -1,6 +1,6 @@
 # ChangeMessageStatus Process
 
-Доступно на других языках: [English/Английский](ChangeMessageStatus.md), [Russian/Русский](ChangeMessageStatus.ru.md).
+[English](ChangeMessageStatus.md) | [Русский](ChangeMessageStatus.ru.md)
 
 ## Описание 
 

@@ -1,6 +1,6 @@
 # LastSeenService
 
-Доступно на других языках: [English/Английский](LastSeenService.md), [Russian/Русский](LastSeenService.ru.md).
+[English](LastSeenService.md) | [Русский](LastSeenService.ru.md)
 
 Сервис обработки времени последней активности пользователей.
 

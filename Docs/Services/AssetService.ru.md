@@ -1,6 +1,6 @@
 # AssetService
 
-Доступно на других языках: [English/Английский](AssetService.md), [Russian/Русский](AssetService.ru.md).
+[English](AssetService.md) | [Русский](AssetService.ru.md)
 
 Сервис, который ответственен за работу с файлами (хранение, обработка, получение и отправка).
 

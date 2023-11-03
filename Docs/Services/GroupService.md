@@ -1,6 +1,6 @@
 # GroupService
 
-Read this in other languages: [English](GroupService.md), [Russian/Русский](GroupService.ru.md).
+[English](GroupService.md) | [Русский](GroupService.ru.md)
 
 Service for processing group messages 
 

@@ -1,6 +1,6 @@
 # AuthenticationService
 
-Доступно на других языках: [English/Английский](AuthenticationService.md), [Russian/Русский](AuthenticationService.ru.md).
+[English](AuthenticationService.md) | [Русский](AuthenticationService.ru.md)
 
 Сервис аутентификации и выдачи сессионных токенов 
 

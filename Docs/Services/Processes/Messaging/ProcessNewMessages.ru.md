@@ -1,6 +1,6 @@
 # ProcessNewMessages Process 
 
-Доступно на других языках: [English/Английский](ProcessNewMessages.md), [Russian/Русский](ProcessNewMessages.ru.md).
+[English](ProcessNewMessages.md) | [Русский](ProcessNewMessages.ru.md)
 
 ## Описание 
 

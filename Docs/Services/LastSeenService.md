@@ -1,6 +1,6 @@
 # LastSeenService
 
-Read this in other languages: [English](LastSeenService.md), [Russian/Русский](LastSeenService.ru.md).
+[English](LastSeenService.md) | [Русский](LastSeenService.ru.md)
 
 Service for processing the time of last user activity.
 

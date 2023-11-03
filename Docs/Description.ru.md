@@ -1,6 +1,6 @@
 # Description
 
-Доступно на других языках: [English/Английский](Description.md), [Russian/Русский](Description.ru.md).
+[English](Description.md) | [Русский](Description.ru.md)
 
 ## Требования
 

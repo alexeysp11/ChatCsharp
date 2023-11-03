@@ -1,6 +1,6 @@
 # StartConversation Process 
 
-Доступно на других языках: [English/Английский](StartConversation.md), [Russian/Русский](StartConversation.ru.md).
+[English](StartConversation.md) | [Русский](StartConversation.ru.md)
 
 ## Описание 
 

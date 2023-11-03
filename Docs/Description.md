@@ -1,6 +1,6 @@
 # Description
 
-Read this in other languages: [English](Description.md), [Russian/Русский](Description.ru.md).
+[English](Description.md) | [Русский](Description.ru.md)
 
 ## Requirements
 

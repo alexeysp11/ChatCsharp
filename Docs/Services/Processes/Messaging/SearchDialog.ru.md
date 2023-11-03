@@ -1,6 +1,6 @@
 # SearchDialog Process 
 
-Доступно на других языках: [English/Английский](SearchDialog.md), [Russian/Русский](SearchDialog.ru.md).
+[English](SearchDialog.md) | [Русский](SearchDialog.ru.md)
 
 Обрабатывает клиентский запрос на получение всех сообщений (за всё время или после определенного времени).
 

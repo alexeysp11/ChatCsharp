@@ -1,6 +1,6 @@
 # MessagingService
 
-Read this in other languages: [English](MessagingService.md), [Russian/Русский](MessagingService.ru.md).
+[English](MessagingService.md) | [Русский](MessagingService.ru.md)
 
 Service for processing messages.
 

@@ -1,6 +1,6 @@
 # ChatCsharp 
 
-Доступно на других языках: [English/Английский](README.md), [Russian/Русский](README.ru.md). 
+[English](README.md) | [Русский](README.ru.md)
 
 Простой клиент-серверный чат, написанный на C#.
 
